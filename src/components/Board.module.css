@@ -1,3 +1,6 @@
 .board {
   display: grid;
+  border: 2px solid black;
+  padding: 1rem;
+  background-color: antiquewhite;
 }

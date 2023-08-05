@@ -1,14 +1,28 @@
 .tile {
-  height: 3rem;
-  width: 3rem;
-  background-color: red;
-  border: 1px solid black;
+  position: relative;
+  height: 2rem;
+  width: 2rem;
   box-sizing: border-box;
-  cursor: pouinter;
+  cursor: pointer;
 }
 
-.tile.available {
-  background-color: green;
+.tile::before,
+.tile:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 1.5px;
+  background-color: black;
+}
+
+.tile::before {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.tile::after {
+  transform: translate(-50%, -50%);
 }
 
 .tile.occupied {
