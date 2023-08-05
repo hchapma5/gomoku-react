@@ -1,0 +1,16 @@
+.tile {
+  height: 3rem;
+  width: 3rem;
+  background-color: red;
+  border: 1px solid black;
+  box-sizing: border-box;
+  cursor: pouinter;
+}
+
+.tile.available {
+  background-color: green;
+}
+
+.tile.occupied {
+  background-color: red;
+}

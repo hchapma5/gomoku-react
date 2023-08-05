@@ -1,0 +1,4 @@
+export enum TILE_STATUS {
+  AVAILABLE = 'AVAILABLE',
+  OCCUPIED = 'OCCUPIED',
+}
