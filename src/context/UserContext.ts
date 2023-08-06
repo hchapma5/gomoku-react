@@ -5,6 +5,8 @@ type UserContextType = {
   user?: User
   login: (username: string) => void
   logout: () => void
+  boardSize: number
+  selectSize: (size: number) => void
 }
 
 const UserContext = createContext<UserContextType>({} as UserContextType)

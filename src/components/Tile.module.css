@@ -1,19 +1,20 @@
 .tile {
   position: relative;
-  height: 2rem;
-  width: 2rem;
+  flex-grow: 1;
+  cursor: pointer;
+  border: 1px solid black;
   box-sizing: border-box;
   cursor: pointer;
 }
 
-.tile::before,
+/* .tile::before,
 .tile:after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   width: 200%;
-  height: 1.5px;
+  height: 1px;
   background-color: black;
 }
 
@@ -23,7 +24,7 @@
 
 .tile::after {
   transform: translate(-50%, -50%);
-}
+} */
 
 .tile.occupied {
   background-color: red;

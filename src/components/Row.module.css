@@ -1,0 +1,5 @@
+.row {
+  display: flex;
+  /* column-gap: 5px; */
+  flex-grow: 1;
+}
