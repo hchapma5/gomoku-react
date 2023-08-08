@@ -1,4 +1,4 @@
-import { Row } from '../components'
+import { Tile } from '../components'
 
 import style from './Board.module.css'
 
@@ -7,14 +7,16 @@ type BoardProps = {
 }
 
 export default function Board({ size }: BoardProps) {
+  const board = [...Array(size)].map((_, row) =>
+    [...Array(size)].map((_, col) => <Tile row={row} col={col} />)
+  )
+
   return (
     <div
       className={style.board}
-      // style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+      style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
     >
-      {[...Array(size)].map((_, index) => (
-        <Row id={index} size={size} />
-      ))}
+      {board}
     </div>
   )
 }

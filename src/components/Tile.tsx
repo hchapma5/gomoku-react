@@ -1,38 +1,51 @@
-import { useState } from 'react'
-import { TILE_STATUS } from '../constants'
-
+import { useEffect, useState } from 'react'
+import { TILE_STATUS, PLAYER } from '../constants'
+import { useGameStore } from '../context'
 import style from './Tile.module.css'
 
 type TileProps = {
-  id: number
-  isOccupied?: boolean
+  row: number
+  col: number
+  status?: TILE_STATUS
 }
 
 const getClassNames = (status: TILE_STATUS) => {
   const className = style.tile
   switch (status) {
-    case TILE_STATUS.AVAILABLE:
+    case TILE_STATUS.EMPTY:
       return `${className} ${style.available}`
-    case TILE_STATUS.OCCUPIED:
-      return `${className} ${style.occupied}`
+    case TILE_STATUS.BLACK:
+      return `${className} ${style.black}`
+    case TILE_STATUS.WHITE:
+      return `${className} ${style.white}`
     default:
       return className
   }
 }
 
-export default function Tile(props: TileProps) {
-  const { id, isOccupied = false } = props
-  const [status, setStatus] = useState(
-    isOccupied ? TILE_STATUS.OCCUPIED : TILE_STATUS.AVAILABLE
-  )
+export default function Tile({ row, col }: TileProps) {
+  const [state, setState] = useState(TILE_STATUS.EMPTY)
+  const { player, setAtIndex } = useGameStore()
 
-  const handleClick = () => {
-    if (status === TILE_STATUS.AVAILABLE) {
-      setStatus(TILE_STATUS.OCCUPIED)
-    } else if (status === TILE_STATUS.OCCUPIED) {
-      setStatus(TILE_STATUS.AVAILABLE)
+  const clickHandler = () => {
+    if (state === TILE_STATUS.EMPTY) {
+      if (player === PLAYER.BLACK) {
+        setState(TILE_STATUS.BLACK)
+      } else {
+        setState(TILE_STATUS.WHITE)
+      }
     }
   }
 
-  return <div className={getClassNames(status)} onClick={handleClick} />
+  useEffect(() => {
+    setAtIndex(row, col, state)
+  }, [state])
+
+  return (
+    <div className={getClassNames(state)} onClick={clickHandler}>
+      <p>
+        {row} {col}`
+      </p>
+    </div>
+  )
 }

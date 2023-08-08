@@ -1,10 +1,8 @@
 .board {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   background-color: rgb(165, 150, 110);
   border: groove 1rem rgb(220, 200, 150);
   padding: 5px;
-  /* row-gap: 5px; */
   width: 600px;
   height: 600px;
 }

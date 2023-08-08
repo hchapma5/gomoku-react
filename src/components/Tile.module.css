@@ -1,31 +1,17 @@
 .tile {
-  position: relative;
-  flex-grow: 1;
+  border-radius: 50%;
+  background-color: transparent;
   cursor: pointer;
   border: 1px solid black;
   box-sizing: border-box;
   cursor: pointer;
+  overflow: hidden;
 }
 
-/* .tile::before,
-.tile:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 1px;
+.tile.black {
   background-color: black;
 }
 
-.tile::before {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.tile::after {
-  transform: translate(-50%, -50%);
-} */
-
-.tile.occupied {
-  background-color: red;
+.tile.white {
+  background-color: white;
 }

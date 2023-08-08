@@ -1,6 +1,12 @@
 export enum TILE_STATUS {
-  AVAILABLE = 'AVAILABLE',
-  OCCUPIED = 'OCCUPIED',
+  EMPTY = 'EMPTY',
+  BLACK = 'BLACK',
+  WHITE = 'WHITE',
+}
+
+export enum PLAYER {
+  BLACK = 'BLACK',
+  WHITE = 'WHITE',
 }
 
 export enum GOMOKU_BOARD_SIZE {
