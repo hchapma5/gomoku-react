@@ -5,27 +5,31 @@ import { checkWin, checkDraw } from '../utils/GameLogic'
 
 import style from './Game.module.css'
 import { useEffect } from 'react'
-import { PLAYER } from '../constants'
 
 export default function Game() {
-  const { player, setPlayer, boardSize, stones } = useGameStore()
-  const navigate = useNavigate()
+  const { player, stones, initGame } = useGameStore()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     if (checkWin(player, stones)) console.log('win')
     if (checkDraw(stones)) console.log('draw')
-    setPlayer(player === PLAYER.BLACK ? PLAYER.WHITE : PLAYER.BLACK)
   }, [stones])
 
   return (
     <div className={style.container}>
       <label>Current Player: {player}</label>
-      <Board size={boardSize} />
+      <Board />
       <div className={style.buttons}>
-        <Button type='submit' onClick={() => navigate('/')}>
+        <Button type='submit' onClick={() => initGame()}>
           Reset
         </Button>
-        <Button type='submit' onClick={() => console.log(stones)}>
+        <Button
+          type='submit'
+          onClick={() => {
+            console.log(stones)
+            console.log('hello')
+          }}
+        >
           Leave
         </Button>
       </div>

@@ -8,14 +8,14 @@ import style from './Home.module.css'
 
 export default function Home() {
   const { user } = useContext(UserContext)
-  const { boardSize, setBoardSize, initStones } = useGameStore()
+  const { boardSize, setBoardSize, initGame } = useGameStore()
   const navigate = useNavigate()
 
   const message = 'Choose board size'
 
   const handleStart = () => {
     if (user) {
-      initStones()
+      initGame()
       navigate('/game')
     } else {
       navigate('/login')

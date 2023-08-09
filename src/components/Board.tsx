@@ -1,22 +1,21 @@
 import { Tile } from '../components'
+import { useGameStore } from '../context'
 
 import style from './Board.module.css'
 
-type BoardProps = {
-  size: number
-}
+export default function Board() {
+  const { boardSize, stones } = useGameStore()
 
-export default function Board({ size }: BoardProps) {
-  const board = [...Array(size)].map((_, row) =>
-    [...Array(size)].map((_, col) => <Tile row={row} col={col} />)
+  const test = stones.map((row, index) =>
+    row.map((state, pos) => <Tile row={index} col={pos} status={state} />)
   )
 
   return (
     <div
       className={style.board}
-      style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+      style={{ gridTemplateColumns: `repeat(${boardSize}, 1fr)` }}
     >
-      {board}
+      {test}
     </div>
   )
 }

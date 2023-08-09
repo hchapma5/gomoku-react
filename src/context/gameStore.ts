@@ -7,7 +7,7 @@ type State = {
   stones: TILE_STATUS[][]
   setBoardSize: (boardSize: number) => void
   setPlayer: (player: PLAYER) => void
-  initStones: () => void
+  initGame: () => void
   setAtIndex: (row: number, col: number, value: TILE_STATUS) => void
 }
 
@@ -15,12 +15,12 @@ const useGameStore = create<State>((set) => ({
   boardSize: GOMOKU_BOARD_SIZE.DEFAULT,
   player: PLAYER.BLACK,
   stones: [],
-  initStones: () =>
+  initGame: () =>
     set((state) => {
       const initStones = [...Array(state.boardSize)].map(() =>
         Array(state.boardSize).fill(TILE_STATUS.EMPTY)
       )
-      return { stones: initStones }
+      return { stones: initStones, player: PLAYER.BLACK }
     }),
   setBoardSize: (boardSize) => set(() => ({ boardSize })),
   setPlayer: (player) => set(() => ({ player })),
