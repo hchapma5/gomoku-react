@@ -1,35 +1,69 @@
 import { useNavigate } from 'react-router'
-import { useGameStore } from '../context'
-import { Board, Button } from '../components'
-import { checkWin, checkDraw } from '../utils/GameLogic'
+import { useLocalStorage } from 'usehooks-ts'
+import { useGameStore, UserContext } from '../context'
+import { Board, Button, GameLabel } from '../components'
+import { GameLog } from '../types'
 
 import style from './Game.module.css'
-import { useEffect } from 'react'
+import { GAME_STATE } from '../constants'
+import { Navigate } from 'react-router-dom'
+import { useContext } from 'react'
 
 export default function Game() {
-  const { player, stones, initGame } = useGameStore()
-  // const navigate = useNavigate()
+  const { user } = useContext(UserContext)
+  const { player, boardSize, moveList, gameState, initGame, endGame } =
+    useGameStore()
+  const [gameHistory, logGameHistory] = useLocalStorage<GameLog[]>(
+    'gomoku-games',
+    []
+  )
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    if (checkWin(player, stones)) console.log('win')
-    if (checkDraw(stones)) console.log('draw')
-  }, [stones])
+  const currentDate = () => {
+    const now = new Date()
+    return `${String(now.getDate()).padStart(2, '0')}/${String(
+      now.getMonth() + 1
+    ).padStart(2, '0')}/${now.getFullYear()}`
+  }
 
+  const getMessage = (state: GAME_STATE) => {
+    const message = `Current Player: ${player}`
+    switch (state) {
+      case GAME_STATE.WIN:
+        return `Player ${player} wins!`
+      case GAME_STATE.DRAW:
+        return "It's a Draw"
+      default:
+        return message
+    }
+  }
+
+  const handleLeave = () => {
+    if (gameState === GAME_STATE.PLAYING) {
+      endGame()
+      navigate('/')
+    } else {
+      const game: GameLog = {
+        size: boardSize,
+        date: currentDate(),
+        result: getMessage(gameState),
+        moveList: moveList,
+      }
+      logGameHistory([...gameHistory, game])
+      navigate('/game-history')
+    }
+  }
+
+  if (!user) return <Navigate to='/login' />
   return (
     <div className={style.container}>
-      <label>Current Player: {player}</label>
+      <GameLabel label={getMessage(gameState)} />
       <Board />
       <div className={style.buttons}>
         <Button type='submit' onClick={() => initGame()}>
           Reset
         </Button>
-        <Button
-          type='submit'
-          onClick={() => {
-            console.log(stones)
-            console.log('hello')
-          }}
-        >
+        <Button type='submit' onClick={handleLeave}>
           Leave
         </Button>
       </div>

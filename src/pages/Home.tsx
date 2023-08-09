@@ -1,25 +1,30 @@
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Dropdown } from '../components'
-import { GOMOKU_BOARD_SIZE } from '../constants'
+import { GAME_STATE, GOMOKU_BOARD_SIZE } from '../constants'
 import { useGameStore, UserContext } from '../context'
 
 import style from './Home.module.css'
 
 export default function Home() {
   const { user } = useContext(UserContext)
-  const { boardSize, setBoardSize, initGame } = useGameStore()
+  const { gameState, boardSize, setBoardSize, initGame } = useGameStore()
   const navigate = useNavigate()
 
-  const message = 'Choose board size'
+  const activeGame = gameState === GAME_STATE.PLAYING ? true : false
 
-  const handleStart = () => {
+  const handleClick = () => {
     if (user) {
-      initGame()
+      if (boardSize === undefined) return
+      if (gameState !== GAME_STATE.PLAYING) initGame()
       navigate('/game')
     } else {
       navigate('/login')
     }
+  }
+
+  const handleDropdown = (value: number) => {
+    if (user) setBoardSize(value)
   }
 
   return (
@@ -27,12 +32,12 @@ export default function Home() {
       <Dropdown
         minValue={GOMOKU_BOARD_SIZE.MIN}
         maxValue={GOMOKU_BOARD_SIZE.MAX}
-        label={message}
-        setValue={setBoardSize}
-        value={boardSize}
+        setValue={handleDropdown}
+        label={'Choose a board size'}
+        active={activeGame}
       />
-      <Button type='submit' onClick={handleStart}>
-        Start
+      <Button type='submit' onClick={handleClick}>
+        {gameState === GAME_STATE.PLAYING ? 'Resume' : 'Start'}
       </Button>
     </div>
   )

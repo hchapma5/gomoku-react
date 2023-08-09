@@ -1,4 +1,4 @@
-import { TILE_STATUS, PLAYER } from '../constants'
+import { TILE_STATUS, PLAYER, GAME_STATE } from '../constants'
 import { useGameStore } from '../context'
 import style from './Tile.module.css'
 
@@ -23,17 +23,17 @@ const getClassNames = (status: TILE_STATUS) => {
 }
 
 export default function Tile({ row, col, status }: TileProps) {
-  const { player, setAtIndex, setPlayer } = useGameStore()
+  const { player, gameState, setAtIndex, handleTurn } = useGameStore()
 
   const clickHandler = () => {
-    if (status === TILE_STATUS.EMPTY) {
+    if (gameState === GAME_STATE.PLAYING && status === TILE_STATUS.EMPTY) {
       if (player === PLAYER.BLACK) {
         setAtIndex(row, col, TILE_STATUS.BLACK)
       } else {
         setAtIndex(row, col, TILE_STATUS.WHITE)
       }
+      handleTurn(row, col)
     }
-    setPlayer(player === PLAYER.BLACK ? PLAYER.WHITE : PLAYER.BLACK)
   }
 
   return <div className={getClassNames(status)} onClick={clickHandler} />

@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input, Message } from '../components'
-import { UserContext } from '../context'
+import { useGameStore, UserContext } from '../context'
 import users from '../data/users.json'
 
 import style from './Login.module.css'

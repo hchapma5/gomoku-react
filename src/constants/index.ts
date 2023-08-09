@@ -10,7 +10,13 @@ export enum PLAYER {
 }
 
 export enum GOMOKU_BOARD_SIZE {
-  DEFAULT = 15,
   MIN = 5,
   MAX = 19,
+}
+
+export enum GAME_STATE {
+  PLAYING = 'PLAYING',
+  WIN = 'WIN',
+  DRAW = 'DRAW',
+  IDLE = 'IDLE',
 }

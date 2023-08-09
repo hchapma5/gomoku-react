@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-self: center;
+  width: 50%;
+  gap: 2rem;
+}
+
+.gameinfo {
+  width: 90%;
+}
