@@ -13,8 +13,6 @@ type TileProps = {
 const getClassNames = (status: TILE_STATUS) => {
   const className = style.tile
   switch (status) {
-    case TILE_STATUS.EMPTY:
-      return `${className} ${style.available}`
     case TILE_STATUS.BLACK:
       return `${className} ${style.black}`
     case TILE_STATUS.WHITE:

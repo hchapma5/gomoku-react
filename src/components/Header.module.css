@@ -1,7 +1,7 @@
 .header {
   font-size: 2.5rem;
   padding: 1rem;
-  background-color: whitesmoke;
+  background-color: rgb(57, 146, 138);
   color: white;
   font-weight: bolder;
   text-transform: uppercase;
@@ -29,7 +29,7 @@
   background-color: transparent;
   border: none;
   color: white;
-  font-size: 1rem;
-  font-weight: 700px;
+  font-size: 1.25rem;
+  font-weight: bold;
   cursor: pointer;
 }

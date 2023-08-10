@@ -32,14 +32,11 @@ export default function GameLogPreview() {
     })
   }
 
-  const handleClick = () => {
-    navigate('/')
-  }
   return (
     <div className={style.container}>
       {message && <GameLabel label={message} />}
       {size && board && <Board size={size} state={board} moves={moveList} />}
-      <Button type='submit' onClick={handleClick}>
+      <Button type='submit' onClick={() => navigate(-1)}>
         Back
       </Button>
     </div>

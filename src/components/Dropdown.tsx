@@ -25,7 +25,7 @@ export default function Dropdown(props: DropdownProps) {
   }
 
   return (
-    <div className={style.menu}>
+    <div className={style.container}>
       <select onChange={handleChange} disabled={active}>
         <option value={undefined}>{label}</option>
         {sizes.map((num) => (

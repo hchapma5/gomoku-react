@@ -33,7 +33,7 @@ export default function Home() {
         minValue={GOMOKU_BOARD_SIZE.MIN}
         maxValue={GOMOKU_BOARD_SIZE.MAX}
         setValue={handleDropdown}
-        label={'Choose a board size'}
+        label={'Choose a board size' + (boardSize ? ` (${boardSize})` : '')}
         active={activeGame}
       />
       <Button type='submit' onClick={handleClick}>
