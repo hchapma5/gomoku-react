@@ -20,7 +20,9 @@ export default function GameItem({ id, date, outcome }: GameItemProps) {
 
   return (
     <div className={style.container}>
-      Game#{id + 1} @{date} {outcome}
+      <p>
+        Game#{id + 1} @{date} {outcome}
+      </p>
       <Button type='submit' onClick={handleClick}>
         View game log
       </Button>

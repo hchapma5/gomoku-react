@@ -17,17 +17,6 @@
   color: black;
 }
 
-.tile.empty:hover {
-  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
-  transform: scale(1.1);
-}
-
-.tile.black:hover,
-.tile.white:hover {
-  box-shadow: none;
-  transform: none;
-}
-
 .tile.black::after {
   content: '';
   width: 90%;
@@ -60,4 +49,22 @@
   transform: translate(-50%, -50%);
   font-weight: bold;
   font-size: 1.5rem;
+}
+
+.tile::before {
+  content: '';
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95); /* Start a bit smaller */
+  background-color: rgba(0, 0, 0, 0); /* Start transparent */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.tile:hover::before {
+  background-color: rgba(0, 0, 0, 0.1); /* End with a faint shadow */
+  transform: translate(-50%, -50%) scale(1); /* Scale up to its original size */
 }

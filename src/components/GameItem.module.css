@@ -1,10 +1,13 @@
 .container {
-  display: flex;
-  justify-self: center;
-  width: 50%;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  box-sizing: border-box;
+  width: 70%;
+  align-items: center;
   gap: 2rem;
 }
 
-.gameinfo {
-  width: 90%;
+p {
+  width: 100%;
+  font-size: 1.5rem;
 }

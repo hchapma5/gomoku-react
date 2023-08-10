@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router'
 import { useLocalStorage } from 'usehooks-ts'
 import { useGameStore, UserContext } from '../context'
 import { Board, Button, GameLabel } from '../components'
@@ -6,7 +5,7 @@ import { GameLog } from '../types'
 
 import style from './Game.module.css'
 import { GAME_STATE } from '../constants'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 
 export default function Game() {
