@@ -9,11 +9,13 @@ type State = {
   stones: TILE_STATUS[][]
   moveList: MoveList[]
   gameState: GAME_STATE
+  gameId: number | undefined
   setBoardSize: (boardSize: number) => void
   initGame: () => void
   setAtIndex: (row: number, col: number, value: TILE_STATUS) => void
   handleTurn: (row: number, col: number) => void
   endGame: () => void
+  setGameId: (gameId: number) => void
 }
 
 const useGameStore = create<State>()((set) => ({
@@ -22,6 +24,7 @@ const useGameStore = create<State>()((set) => ({
   stones: [],
   moveList: [],
   gameState: GAME_STATE.IDLE,
+  gameId: undefined,
   initGame: () =>
     set((state) => {
       const initStones = [...Array(state.boardSize)].map(() =>
@@ -57,6 +60,7 @@ const useGameStore = create<State>()((set) => ({
     }),
   endGame: () =>
     set(() => ({ gameState: GAME_STATE.IDLE, boardSize: undefined })),
+  setGameId: (gameId) => set(() => ({ gameId })),
 }))
 
 export default useGameStore

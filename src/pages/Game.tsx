@@ -11,7 +11,7 @@ import { useContext } from 'react'
 
 export default function Game() {
   const { user } = useContext(UserContext)
-  const { player, boardSize, moveList, gameState, initGame, endGame } =
+  const { player, boardSize, moveList, gameState, stones, initGame, endGame } =
     useGameStore()
   const [gameHistory, logGameHistory] = useLocalStorage<GameLog[]>(
     'gomoku-games',
@@ -58,7 +58,7 @@ export default function Game() {
   return (
     <div className={style.container}>
       <GameLabel label={getMessage(gameState)} />
-      <Board />
+      <Board size={boardSize} state={stones} />
       <div className={style.buttons}>
         <Button type='submit' onClick={() => initGame()}>
           Reset

@@ -1,4 +1,7 @@
 .tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: transparent;
   cursor: pointer;
@@ -8,10 +11,18 @@
   overflow: hidden;
 }
 
+.label {
+  font-weight: bold;
+  font-size: larger;
+  position: absolute;
+}
+
 .tile.black {
   background-color: black;
+  color: white;
 }
 
 .tile.white {
   background-color: white;
+  color: black;
 }

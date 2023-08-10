@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useGameStore } from '../context'
 import Button from './Button'
 import style from './GameItem.module.css'
 
@@ -9,9 +10,11 @@ type GameItemProps = {
 }
 
 export default function GameItem({ id, date, outcome }: GameItemProps) {
+  const { setGameId } = useGameStore()
   const navigate = useNavigate()
 
   const handleClick = () => {
+    setGameId(id)
     navigate(`/game-log/:${id + 1}`)
   }
 
