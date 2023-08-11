@@ -1,11 +1,10 @@
 .tile {
-  display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border: 1px solid black;
   position: relative;
-  display: inline-block;
   vertical-align: top;
 }
 
@@ -17,11 +16,29 @@
   color: black;
 }
 
-.tile.black::after {
+.tile::before {
   content: '';
   width: 90%;
   height: 90%;
-  background-image: linear-gradient(black, rgb(88, 88, 88));
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.tile:hover::before {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.tile.black::after,
+.tile.white::after {
+  content: '';
+  width: 90%;
+  height: 90%;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -29,16 +46,12 @@
   transform: translate(-50%, -50%);
 }
 
+.tile.black::after {
+  background-image: radial-gradient(circle, black, rgb(50, 50, 50));
+}
+
 .tile.white::after {
-  content: '';
-  width: 90%;
-  height: 90%;
-  background-image: linear-gradient(whitesmoke, grey);
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  background-image: radial-gradient(circle, whitesmoke, grey);
 }
 
 .label {
@@ -51,20 +64,18 @@
   font-size: 1.5rem;
 }
 
-.tile::before {
-  content: '';
-  width: 90%;
-  height: 90%;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95); /* Start a bit smaller */
-  background-color: rgba(0, 0, 0, 0); /* Start transparent */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+@keyframes dropStone {
+  0% {
+    transform: scale(1.1) translate(-50%, -75%);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
 }
 
-.tile:hover::before {
-  background-color: rgba(0, 0, 0, 0.1); /* End with a faint shadow */
-  transform: translate(-50%, -50%) scale(1); /* Scale up to its original size */
+.tile.black::after,
+.tile.white::after {
+  animation: dropStone 0.2s forwards;
 }

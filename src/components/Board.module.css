@@ -1,8 +1,8 @@
 .board {
   display: grid;
-  background-color: rgb(165, 150, 110);
-  border: groove 1rem rgb(220, 200, 150);
-  padding: 5px;
-  width: 500px;
-  height: 500px;
+  background-color: #955c33;
+  background-image: url('../img/wood.jpg');
+  padding: 1rem;
+  width: 50vh;
+  height: 50vh;
 }
