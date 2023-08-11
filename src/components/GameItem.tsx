@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useGameStore } from '../context'
+import { useGameStore } from '../stores'
 import Button from './Button'
 import style from './GameItem.module.css'
 

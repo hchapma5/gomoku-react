@@ -2,7 +2,7 @@ import { MoveList } from './MoveList'
 
 export type GameLog = {
   id?: number
-  size: number | undefined
+  size?: number
   date: string
   result: string
   moveList: MoveList[]

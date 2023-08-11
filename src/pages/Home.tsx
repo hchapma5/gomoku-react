@@ -2,13 +2,19 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Dropdown } from '../components'
 import { GAME_STATE, GOMOKU_BOARD_SIZE } from '../constants'
-import { useGameStore, UserContext } from '../context'
+import { UserContext } from '../context'
+import { useGameStore } from '../stores'
 
 import style from './Home.module.css'
 
 export default function Home() {
   const { user } = useContext(UserContext)
-  const { gameState, boardSize, setBoardSize, initGame } = useGameStore()
+  const {
+    gameState,
+    boardSize,
+    setBoardSize,
+    initializeGame: initGame,
+  } = useGameStore()
   const navigate = useNavigate()
 
   const activeGame = gameState === GAME_STATE.PLAYING ? true : false

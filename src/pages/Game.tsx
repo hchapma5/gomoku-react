@@ -1,5 +1,6 @@
 import { useLocalStorage } from 'usehooks-ts'
-import { useGameStore, UserContext } from '../context'
+import { useGameStore } from '../stores'
+import { UserContext } from '../context'
 import { Board, Button, GameLabel } from '../components'
 import { GameLog } from '../types'
 
@@ -8,22 +9,29 @@ import { GAME_STATE } from '../constants'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 
+const currentDate = () => {
+  const now = new Date()
+  return `${String(now.getDate()).padStart(2, '0')}/${String(
+    now.getMonth() + 1
+  ).padStart(2, '0')}/${now.getFullYear()}`
+}
+
 export default function Game() {
   const { user } = useContext(UserContext)
-  const { player, boardSize, moveList, gameState, stones, initGame, endGame } =
-    useGameStore()
+  const {
+    player,
+    boardSize,
+    moveList,
+    gameState,
+    stones,
+    initializeGame: initGame,
+    endGame,
+  } = useGameStore()
   const [gameHistory, logGameHistory] = useLocalStorage<GameLog[]>(
     'gomoku-games',
     []
   )
   const navigate = useNavigate()
-
-  const currentDate = () => {
-    const now = new Date()
-    return `${String(now.getDate()).padStart(2, '0')}/${String(
-      now.getMonth() + 1
-    ).padStart(2, '0')}/${now.getFullYear()}`
-  }
 
   const getMessage = (state: GAME_STATE) => {
     const message = `Current Player: ${player}`

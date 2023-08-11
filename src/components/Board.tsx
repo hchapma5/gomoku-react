@@ -5,7 +5,7 @@ import { MoveList } from '../types'
 import style from './Board.module.css'
 
 type BoardProps = {
-  size: number | undefined
+  size?: number
   state: TILE_STATUS[][]
   moves?: MoveList[]
 }

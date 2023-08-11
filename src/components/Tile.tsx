@@ -1,5 +1,5 @@
 import { TILE_STATUS, PLAYER, GAME_STATE } from '../constants'
-import { useGameStore } from '../context'
+import { useGameStore } from '../stores'
 import { MoveList } from '../types'
 import style from './Tile.module.css'
 
@@ -23,7 +23,12 @@ const getClassNames = (status: TILE_STATUS) => {
 }
 
 export default function Tile({ row, col, status, moves }: TileProps) {
-  const { player, gameState, setAtIndex, handleTurn } = useGameStore()
+  const {
+    player,
+    gameState,
+    placeStoneOnBoard: setAtIndex,
+    makeMove: handleTurn,
+  } = useGameStore()
 
   let label: number | undefined
 

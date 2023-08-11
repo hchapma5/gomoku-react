@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Board, Button, GameLabel } from '../components'
 import { PLAYER, TILE_STATUS } from '../constants'
-import { useGameStore } from '../context'
+import { useGameStore } from '../stores'
 import { MoveList } from '../types'
 import style from './GameLogPreview.module.css'
 

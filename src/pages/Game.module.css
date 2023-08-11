@@ -9,7 +9,6 @@
 
 .buttons {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 50%;
+  width: 50vh;
+  gap: 25%;
 }
