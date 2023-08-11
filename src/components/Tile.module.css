@@ -29,11 +29,6 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.tile:hover::before {
-  background-color: rgba(0, 0, 0, 0.1);
-  transform: translate(-50%, -50%) scale(1);
-}
-
 .tile.black::after,
 .tile.white::after {
   content: '';
@@ -60,6 +55,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  user-select: none;
   font-weight: bold;
   font-size: 1.5rem;
 }
