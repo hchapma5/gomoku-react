@@ -1,6 +1,6 @@
 import React from 'react'
 
-import style from './Input.module.css'
+import style from './styles/Input.module.css'
 
 const Input = React.forwardRef(
   (

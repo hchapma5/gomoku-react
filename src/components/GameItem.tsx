@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { useGameStore } from '../stores'
 import Button from './Button'
-import style from './GameItem.module.css'
+
+import style from './styles/GameItem.module.css'
 
 type GameItemProps = {
   id: number

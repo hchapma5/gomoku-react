@@ -1,13 +1,13 @@
-import { useEffect, useState, useContext } from 'react'
-import { UserContext } from '../context'
+import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { useUserStore } from '../stores'
 import { GameItem } from '../components'
 import { GameLog } from '../types'
 
-import style from './GameHistory.module.css'
+import style from './styles/GameHistory.module.css'
 
 export default function GameHistory() {
-  const { user } = useContext(UserContext)
+  const { user } = useUserStore()
   const [games, setGames] = useState<GameLog[]>([])
 
   const placeholderMessage = 'No game logs found'

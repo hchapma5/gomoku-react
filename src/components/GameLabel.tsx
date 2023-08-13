@@ -1,4 +1,4 @@
-import style from './GameLabel.module.css'
+import style from './styles/GameLabel.module.css'
 
 type GameLabelProps = {
   label: string

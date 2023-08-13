@@ -1,7 +1,8 @@
 import { TILE_STATUS, PLAYER, GAME_STATE } from '../constants'
 import { useGameStore } from '../stores'
 import { MoveList } from '../types'
-import style from './Tile.module.css'
+
+import style from './styles/Tile.module.css'
 
 type TileProps = {
   row: number

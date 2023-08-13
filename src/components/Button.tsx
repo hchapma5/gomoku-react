@@ -1,4 +1,4 @@
-import style from './Button.module.css'
+import style from './styles/Button.module.css'
 
 export default function Button(
   props: React.ButtonHTMLAttributes<HTMLButtonElement>

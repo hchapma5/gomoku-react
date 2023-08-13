@@ -1,13 +1,12 @@
-import { useContext } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { UserContext } from '../context'
+import { useUserStore } from '../stores'
 
-import style from './Header.module.css'
+import style from './styles/Header.module.css'
 
 export default function Header() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { user, logout } = useContext(UserContext)
+  const { user, logout } = useUserStore()
 
   const getActions = () => {
     if (user) {

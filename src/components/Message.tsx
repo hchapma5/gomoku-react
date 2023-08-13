@@ -1,4 +1,4 @@
-import style from './Message.module.css'
+import style from './styles/Message.module.css'
 
 type MessageProps = {
   variant: 'info' | 'success' | 'warning' | 'error'

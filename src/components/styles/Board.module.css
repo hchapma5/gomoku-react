@@ -1,7 +1,7 @@
 .board {
   display: grid;
   background-color: #955c33;
-  background-image: url('../img/wood.jpg');
+  background-image: url('../../img/wood.jpg');
   padding: 1rem;
   width: 50vh;
   height: 50vh;

@@ -1,13 +1,11 @@
 import { useLocalStorage } from 'usehooks-ts'
-import { useGameStore } from '../stores'
-import { UserContext } from '../context'
+import { useGameStore, useUserStore } from '../stores'
 import { Board, Button, GameLabel } from '../components'
 import { GameLog } from '../types'
-
-import style from './Game.module.css'
 import { GAME_STATE } from '../constants'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+
+import style from './styles/Game.module.css'
 
 const currentDate = () => {
   const now = new Date()
@@ -17,7 +15,7 @@ const currentDate = () => {
 }
 
 export default function Game() {
-  const { user } = useContext(UserContext)
+  const { user } = useUserStore()
   const {
     player,
     boardSize,

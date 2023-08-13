@@ -2,7 +2,7 @@ import { Tile } from '../components'
 import { TILE_STATUS } from '../constants'
 import { MoveList } from '../types'
 
-import style from './Board.module.css'
+import style from './styles/Board.module.css'
 
 type BoardProps = {
   size?: number

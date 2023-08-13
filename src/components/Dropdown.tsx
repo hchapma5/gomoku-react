@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react'
 
-import style from './Dropdown.module.css'
+import style from './styles/Dropdown.module.css'
 
 type DropdownProps = {
   label: string

@@ -1,14 +1,12 @@
-import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Dropdown } from '../components'
 import { GAME_STATE, GOMOKU_BOARD_SIZE } from '../constants'
-import { UserContext } from '../context'
-import { useGameStore } from '../stores'
+import { useGameStore, useUserStore } from '../stores'
 
-import style from './Home.module.css'
+import style from './styles/Home.module.css'
 
 export default function Home() {
-  const { user } = useContext(UserContext)
+  const { user } = useUserStore()
   const {
     gameState,
     boardSize,

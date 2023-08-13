@@ -1,13 +1,13 @@
-import { useState, useContext, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input, Message } from '../components'
-import { UserContext } from '../context'
+import { useUserStore } from '../stores'
 import users from '../data/users.json'
 
-import style from './Login.module.css'
+import style from './styles/Login.module.css'
 
 export default function Login() {
-  const { login } = useContext(UserContext)
+  const { login } = useUserStore()
   const usernameInput = useRef<HTMLInputElement | null>(null)
   const navigate = useNavigate()
   const [username, setUsername] = useState('')

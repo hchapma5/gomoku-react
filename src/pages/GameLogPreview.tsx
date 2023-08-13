@@ -3,7 +3,8 @@ import { Board, Button, GameLabel } from '../components'
 import { PLAYER, TILE_STATUS } from '../constants'
 import { useGameStore } from '../stores'
 import { MoveList } from '../types'
-import style from './GameLogPreview.module.css'
+
+import style from './styles/GameLogPreview.module.css'
 
 export default function GameLogPreview() {
   const navigate = useNavigate()
