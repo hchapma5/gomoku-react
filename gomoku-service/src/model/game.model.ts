@@ -15,7 +15,8 @@ const gameSchema = new mongoose.Schema({
     required: true,
   },
   board: { type: Array },
-  outcome: { type: String },
+  outcome: { type: String, default: 'TBD' },
+  createdAt: { type: Date, default: Date.now },
 })
 
 export default mongoose.model<GameDocument>('Game', gameSchema)

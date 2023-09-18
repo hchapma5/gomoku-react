@@ -5,13 +5,45 @@ import {
   createGame,
   updateGame,
   getGameById,
-  getGamesbyUserId,
+  getAllGamesByUserId,
 } from '../service/game.service'
-import { createGameSchema, updateGameSchema } from '../schema/game.schema'
-import mongoose from 'mongoose'
+import {
+  createGameSchema,
+  getGameByIdSchema,
+  updateGameSchema,
+} from '../schema/game.schema'
+import { checkWin, checkDraw } from '../util/gameLogic'
 
 const gameHandler = express.Router()
 gameHandler.use(deserializeUser)
+
+gameHandler.get('/game-history', async (req: Request, res: Response) => {
+  const userId = req.userId
+  try {
+    const games = await getAllGamesByUserId(userId)
+    return res.status(200).send(
+      games.map((game) => ({
+        id: game._id,
+        outcome: game.outcome,
+        date: game.createdAt,
+      }))
+    )
+  } catch (error) {
+    return res.status(500).send(error)
+  }
+})
+
+gameHandler.get(
+  '/:id',
+  validateSchema(getGameByIdSchema),
+  async (req: Request, res: Response) => {
+    const gameId = req.params.id
+    console.log(gameId)
+    const game = await getGameById(gameId)
+    if (!game) return res.sendStatus(404)
+    return res.status(200).send(game)
+  }
+)
 
 gameHandler.post(
   '/',
@@ -34,7 +66,6 @@ gameHandler.put(
   async (req: Request, res: Response) => {
     const userId = req.userId
     const gameId = req.params.id
-    console.log(gameId)
 
     const { row, col, stone } = req.body
 
@@ -52,8 +83,15 @@ gameHandler.put(
       const updatedGame = await updateGame(gameId, userId, {
         board: game.board,
       })
+
       if (updatedGame) {
-        return res.status(200).send(updatedGame)
+        const gameOutcome = checkWin(stone, game.board)
+          ? 'win'
+          : checkDraw(game.board)
+          ? 'draw'
+          : 'continue'
+
+        return res.status(200).send({ result: gameOutcome })
       } else {
         return res.status(500).send('Error updating game')
       }

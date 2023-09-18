@@ -1,8 +1,8 @@
 import mongoose, { DocumentDefinition } from 'mongoose'
 import GameModel, { GameDocument } from '../model/game.model'
 
-export async function getGamesbyUserId(userId: string) {
-  //TOD: get a list of played games by userId
+export async function getAllGamesByUserId(userId: string) {
+  return GameModel.find({ userId: userId }).lean()
 }
 
 export async function getGameById(id: string) {
