@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Header } from './components'
-import { Home, Login, Game, GameHistory, GameLogPreview } from './pages'
+import { Home, Login, SignUp, Game, GameHistory, GameLogPreview } from './pages'
 
 import style from './App.module.css'
 
@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='login' element={<Login />} />
+          <Route path='sign-up' element={<SignUp />} />
           <Route path='game-history' element={<GameHistory />} />
           <Route path='game-log/:id' element={<GameLogPreview />} />
           <Route path='game' element={<Game />} />

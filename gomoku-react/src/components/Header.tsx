@@ -29,10 +29,14 @@ export default function Header() {
           </button>
         </>
       )
-    } else if (location.pathname !== '/login') {
-      return (
+    } else {
+      return location.pathname !== '/login' ? (
         <button className={style.action} onClick={() => navigate('login')}>
           Login
+        </button>
+      ) : (
+        <button className={style.action} onClick={() => navigate('sign-up')}>
+          Sign Up
         </button>
       )
     }
