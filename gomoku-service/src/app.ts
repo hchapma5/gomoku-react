@@ -1,23 +1,11 @@
 import express, { Express, Request, Response } from 'express'
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
-import connectDB from '../util/connectDB'
-
-dotenv.config()
-
-connectDB()
+import authHandler from './handler/auth.handler'
+import gameHandler from './handler/game.handler'
 
 const app: Express = express()
-const port = process.env.PORT
+app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
-})
+app.use('/api/auth', authHandler)
+app.use('/api/game', gameHandler)
 
-mongoose.connection.once('connected', () => {
-  console.log('Connected to MongoDB.')
-
-  app.listen(port, () => {
-    console.log(` [Server]: is running at http://localhost:${port}`)
-  })
-})
+export default app
