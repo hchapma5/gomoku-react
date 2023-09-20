@@ -13,6 +13,7 @@ import {
   updateGameSchema,
 } from '../schema/game.schema'
 import { checkWin, checkDraw } from '../util/gameLogic'
+import { State, Stone } from '../model/game.model'
 
 const gameHandler = express.Router()
 gameHandler.use(deserializeUser)
@@ -21,15 +22,20 @@ gameHandler.get('/game-history', async (req: Request, res: Response) => {
   const userId = req.userId
   try {
     const games = await getAllGamesByUserId(userId)
-    return res.status(200).send(
-      games.map((game) => ({
-        id: game._id,
-        outcome: game.outcome,
-        date: game.createdAt,
-      }))
-    )
-  } catch (error) {
-    return res.status(500).send(error)
+
+    if (games) {
+      return res.status(200).send(
+        games.map((game) => ({
+          id: game._id,
+          outcome: game.state,
+          date: game.createdAt,
+        }))
+      )
+    } else {
+      return res.status(404).send('No games found')
+    }
+  } catch (e) {
+    return res.status(500).send(e)
   }
 })
 
@@ -37,11 +43,14 @@ gameHandler.get(
   '/:id',
   validateSchema(getGameByIdSchema),
   async (req: Request, res: Response) => {
-    const gameId = req.params.id
-    console.log(gameId)
-    const game = await getGameById(gameId)
-    if (!game) return res.sendStatus(404)
-    return res.status(200).send(game)
+    try {
+      const gameId = req.params.id
+      const game = await getGameById(gameId)
+      if (!game) return res.sendStatus(404)
+      return res.status(200).send(game)
+    } catch (e) {
+      return res.status(500).send(e)
+    }
   }
 )
 
@@ -49,14 +58,15 @@ gameHandler.post(
   '/',
   validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
-    const userId = req.userId
-    const { boardSize } = req.body
+    try {
+      const userId = req.userId
+      const { boardSize } = req.body
 
-    const board = [...Array(boardSize)].map(() => Array(boardSize).fill(''))
-
-    // Create game
-    const newGame = await createGame({ userId, board })
-    return res.status(200).send({ gameId: newGame._id })
+      const newGame = await createGame({ userId, boardSize })
+      return res.status(200).send({ gameId: newGame._id })
+    } catch (e) {
+      return res.status(500).send(e)
+    }
   }
 )
 
@@ -64,39 +74,30 @@ gameHandler.put(
   '/:id',
   validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
-    const userId = req.userId
     const gameId = req.params.id
+    const userId = req.userId
+    const { player, board, moveList } = req.body
 
-    const { row, col, stone } = req.body
+    let response = State.IN_PROGRESS
 
-    // Get game
-    const game = await getGameById(gameId)
-
-    if (!game) {
-      return res.status(404).send('Game not found')
+    if (checkWin(player, board)) {
+      response = player === Stone.BLACK ? State.BLACK_WIN : State.WHITE_WIN
+    } else if (checkDraw(board)) {
+      response = State.DRAW
     }
 
-    // Update game
-    if (game.board[row][col] === '') {
-      game.board[row][col] = stone
-
+    if (response !== State.IN_PROGRESS) {
       const updatedGame = await updateGame(gameId, userId, {
-        board: game.board,
+        state: response,
+        moveList,
       })
-
       if (updatedGame) {
-        const gameOutcome = checkWin(stone, game.board)
-          ? 'win'
-          : checkDraw(game.board)
-          ? 'draw'
-          : 'continue'
-
-        return res.status(200).send({ result: gameOutcome })
+        return res.status(200).send({ state: response })
       } else {
         return res.status(500).send('Error updating game')
       }
     } else {
-      return res.status(400).send('Invalid move')
+      return res.status(200).send({ state: response })
     }
   }
 )

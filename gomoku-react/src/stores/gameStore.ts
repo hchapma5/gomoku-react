@@ -1,72 +1,140 @@
 import { create } from 'zustand'
+import { Post, Get, Put } from '../utils/http'
 import { MoveList } from '../types'
-import { checkWin, checkDraw } from '../utils/GameLogic'
-import { PLAYER, TILE_STATUS, GAME_STATE } from '../constants'
+import { GameState, Stone } from '../constants'
 
-type State = {
-  boardSize?: number
-  player: PLAYER
-  stones: TILE_STATUS[][]
-  moveList: MoveList[]
-  gameState: GAME_STATE
-  gameId?: number
-  initializeGame: () => void
-  setBoardSize: (boardSize: number) => void
-  placeStoneOnBoard: (row: number, col: number, value: TILE_STATUS) => void
-  makeMove: (row: number, col: number) => void
-  endGame: () => void
-  setGameId: (gameId: number) => void
+interface CreateResponse {
+  gameId: string
 }
 
-const useGameStore = create<State>()((set) => ({
+interface GameResponse {
+  id: string
+  userId: string
+  board: Stone[][]
+  moveList: MoveList[]
+  currentPlayer: string
+  boardSize: number
+  state: string
+  createdAt: string
+}
+
+interface MoveResponse {
+  state: GameState
+  moveList: MoveList[]
+}
+
+type State = {
+  boardSize: number | undefined
+  player?: Stone
+  stones: Stone[][]
+  gameState: GameState
+  gameId?: string
+  moveList: MoveList[]
+  setAtIndex: (row: number, col: number) => void
+  createGame: (size: number) => Promise<true | string>
+  loadGame: () => Promise<true | string>
+  processTurn: () => Promise<true | string>
+  resetGame: () => void
+  endGame: () => void
+  setGameId: (gameId: string) => void
+  setBoardSize: (size: number) => void
+}
+
+const useGameStore = create<State>()((set, get) => ({
   boardSize: undefined,
-  player: PLAYER.BLACK,
+  player: Stone.BLACK,
   stones: [],
-  moveList: [],
-  gameState: GAME_STATE.IDLE,
+  gameState: GameState.IDLE,
   gameId: undefined,
+  moveList: [],
 
-  initializeGame: () =>
-    set((state) => {
-      const initStones = [...Array(state.boardSize)].map(() =>
-        Array(state.boardSize).fill(TILE_STATUS.EMPTY)
-      )
-      return {
-        stones: initStones,
-        player: PLAYER.BLACK,
-        gameState: GAME_STATE.PLAYING,
-        moveList: [],
+  createGame: async (size: number) => {
+    try {
+      const response = (await Post(`/api/game`, {
+        boardSize: size,
+      })) as CreateResponse
+      set({
+        gameId: response.gameId,
+        gameState: GameState.IN_PROGRESS,
+        boardSize: size,
+        stones: [...Array(size)].map(() => Array(size).fill(Stone.EMPTY)),
+      })
+      return true
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message
       }
-    }),
+      return 'Unable to create game at this moment, please try again'
+    }
+  },
 
-  setBoardSize: (boardSize) => set(() => ({ boardSize })),
+  loadGame: async () => {
+    try {
+      const id = get().gameId
+      const game = (await Get(`/api/game/${id}`)) as GameResponse
+      set({ stones: game.board })
+      return true
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message
+      }
+      return 'Unable to load game at this moment, please try again'
+    }
+  },
+
+  processTurn: async () => {
+    try {
+      const id = get().gameId
+      const response = (await Put(`/api/game/${id}`, {
+        player: get().player,
+        board: get().stones,
+        moveList: get().moveList,
+      })) as MoveResponse
+      if (response.state !== GameState.IN_PROGRESS) {
+        // Case: WIN or DRAW
+        set({ gameState: response.state })
+      } else {
+        // Switch player
+        set({
+          player: get().player === Stone.BLACK ? Stone.WHITE : Stone.BLACK,
+        })
+      }
+      return true
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message
+      }
+      return 'Unable to make move at this moment, please try again'
+    }
+  },
 
   setGameId: (gameId) => set(() => ({ gameId })),
 
-  endGame: () =>
-    set(() => ({ gameState: GAME_STATE.IDLE, boardSize: undefined })),
+  setBoardSize: (size: number) => set({ boardSize: size }),
 
-  placeStoneOnBoard: (row, col, value) =>
+  resetGame: () =>
+    set({
+      stones: [...Array(get().boardSize)].map(() =>
+        Array(get().boardSize).fill(Stone.EMPTY)
+      ),
+      moveList: [],
+      player: Stone.BLACK,
+      gameState: GameState.IN_PROGRESS,
+    }),
+
+  endGame: () =>
+    set(() => ({ gameState: GameState.IDLE, boardSize: undefined })),
+
+  setAtIndex: (row, col) => {
     set((state) => {
       const newStones = [...state.stones]
-      newStones[row][col] = value
-      return { stones: newStones }
-    }),
-
-  makeMove: (row: number, col: number) =>
-    set((state) => {
-      const entry: MoveList = { row, col, player: state.player }
-      const updateMoveList = [...state.moveList, entry]
-      if (checkWin(state.player, state.stones)) {
-        return { moveList: updateMoveList, gameState: GAME_STATE.WIN }
-      } else if (checkDraw(state.stones)) {
-        return { moveList: updateMoveList, gameState: GAME_STATE.DRAW }
-      } else {
-        const newPlayer =
-          state.player === PLAYER.BLACK ? PLAYER.WHITE : PLAYER.BLACK
-        return { moveList: updateMoveList, player: newPlayer }
-      }
-    }),
+      newStones[row][col] = state.player as Stone
+      const newMoveList = [...state.moveList]
+      newMoveList.push({ row, col, player: state.player as Stone })
+      return { stones: newStones, moveList: newMoveList }
+    })
+    get().processTurn()
+  },
 }))
 
 export default useGameStore

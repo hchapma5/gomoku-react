@@ -1,4 +1,6 @@
-function checkHorizontalWin(player: string, stones: string[][]): boolean {
+import { Stone } from '../model/game.model'
+
+function checkHorizontalWin(player: Stone, stones: Stone[][]): boolean {
   for (let i = 0; i < stones.length; i++) {
     let count = 0
     for (let j = 0; j < stones[i].length; j++) {
@@ -13,7 +15,7 @@ function checkHorizontalWin(player: string, stones: string[][]): boolean {
   return false
 }
 
-function checkVerticalWin(player: string, stones: string[][]): boolean {
+function checkVerticalWin(player: Stone, stones: Stone[][]): boolean {
   for (let i = 0; i < stones.length; i++) {
     let count = 0
     for (let j = 0; j < stones[i].length; j++) {
@@ -28,7 +30,7 @@ function checkVerticalWin(player: string, stones: string[][]): boolean {
   return false
 }
 
-function checkDiagonalWin(player: string, stones: string[][]): boolean {
+function checkDiagonalWin(player: Stone, stones: Stone[][]): boolean {
   const rowCount = stones.length
   const colCount = stones[0].length
   const targetCount = 5 // Number of consecutive tiles required to win
@@ -69,7 +71,7 @@ function checkDiagonalWin(player: string, stones: string[][]): boolean {
   return false
 }
 
-export function checkWin(player: string, stones: string[][]): boolean {
+export function checkWin(player: Stone, stones: Stone[][]): boolean {
   return (
     checkHorizontalWin(player, stones) ||
     checkVerticalWin(player, stones) ||
@@ -77,6 +79,6 @@ export function checkWin(player: string, stones: string[][]): boolean {
   )
 }
 
-export function checkDraw(stones: string[][]): boolean {
-  return stones.every((row) => row.every((tile) => tile !== ''))
+export function checkDraw(stones: Stone[][]): boolean {
+  return stones.every((row) => row.every((tile) => tile !== Stone.EMPTY))
 }

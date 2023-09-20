@@ -1,10 +1,5 @@
-export enum TILE_STATUS {
+export enum Stone {
   EMPTY = 'EMPTY',
-  BLACK = 'BLACK',
-  WHITE = 'WHITE',
-}
-
-export enum PLAYER {
   BLACK = 'BLACK',
   WHITE = 'WHITE',
 }
@@ -14,9 +9,10 @@ export enum GOMOKU_BOARD_SIZE {
   MAX = 19,
 }
 
-export enum GAME_STATE {
-  PLAYING = 'PLAYING',
-  WIN = 'WIN',
+export enum GameState {
+  IN_PROGRESS = 'IN_PROGRESS',
+  BLACK_WIN = 'BLACK_WIN',
+  WHITE_WIN = 'WHITE_WIN',
   DRAW = 'DRAW',
   IDLE = 'IDLE',
 }

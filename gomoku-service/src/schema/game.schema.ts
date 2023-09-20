@@ -1,4 +1,4 @@
-import { object, number, TypeOf, string } from 'zod'
+import { object, number, TypeOf, string, array } from 'zod'
 
 const payload = {
   body: object({
@@ -10,9 +10,15 @@ const payload = {
 
 const updateGameParams = {
   body: object({
-    row: number({ required_error: 'Row is required' }),
-    col: number({ required_error: 'Col is required' }),
-    stone: string({ required_error: 'Stone is required' }),
+    player: string({ required_error: 'Player is required' }),
+    board: array(array(string())).nonempty({ message: 'Board is required' }),
+    moveList: array(
+      object({
+        row: number({ required_error: 'Row is required' }),
+        col: number({ required_error: 'Col is required' }),
+        player: string({ required_error: 'Player is required' }),
+      })
+    ),
   }),
 }
 

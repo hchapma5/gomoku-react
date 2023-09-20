@@ -1,4 +1,5 @@
-import { TILE_STATUS, PLAYER, GAME_STATE } from '../constants'
+import { memo } from 'react'
+import { GameState, Stone } from '../constants'
 import { useGameStore } from '../stores'
 import { MoveList } from '../types'
 
@@ -7,47 +8,30 @@ import style from './styles/Tile.module.css'
 type TileProps = {
   row: number
   col: number
-  status: TILE_STATUS
+  status: Stone
   moves?: MoveList[]
 }
 
-const getClassNames = (status: TILE_STATUS) => {
+const getClassNames = (status: Stone) => {
   const className = style.tile
   switch (status) {
-    case TILE_STATUS.BLACK:
+    case Stone.BLACK:
       return `${className} ${style.black}`
-    case TILE_STATUS.WHITE:
+    case Stone.WHITE:
       return `${className} ${style.white}`
     default:
       return className
   }
 }
 
-export default function Tile({ row, col, status, moves }: TileProps) {
-  const {
-    player,
-    gameState,
-    placeStoneOnBoard: setAtIndex,
-    makeMove: handleTurn,
-  } = useGameStore()
+export default memo(function Tile({ row, col, status, moves }: TileProps) {
+  const { gameState, setAtIndex } = useGameStore()
 
   let label: number | undefined
 
-  if (moves) {
-    label =
-      moves.findIndex((move) => move.row === row && move.col === col) + 1 > 0
-        ? moves.findIndex((move) => move.row === row && move.col === col) + 1
-        : undefined
-  }
-
   const clickHandler = () => {
-    if (gameState === GAME_STATE.PLAYING && status === TILE_STATUS.EMPTY) {
-      if (player === PLAYER.BLACK) {
-        setAtIndex(row, col, TILE_STATUS.BLACK)
-      } else {
-        setAtIndex(row, col, TILE_STATUS.WHITE)
-      }
-      handleTurn(row, col)
+    if (gameState === GameState.IN_PROGRESS && status === Stone.EMPTY) {
+      setAtIndex(row, col)
     }
   }
 
@@ -56,4 +40,4 @@ export default function Tile({ row, col, status, moves }: TileProps) {
       {moves && <div className={style.label}>{label}</div>}
     </div>
   )
-}
+})

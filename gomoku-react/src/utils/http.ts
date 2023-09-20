@@ -13,7 +13,7 @@ export default async function http<T>(request: RequestInfo): Promise<T> {
 export let token = ''
 export const setToken = (newToken: string) => (token = newToken)
 
-export async function get<Res>(path: string): Promise<Res> {
+export async function Get<Res>(path: string): Promise<Res> {
   return await http<Res>(
     new Request(path, {
       headers: {
@@ -25,7 +25,7 @@ export async function get<Res>(path: string): Promise<Res> {
   )
 }
 
-export async function put<Req, Res>(path: string, body: Req): Promise<Res> {
+export async function Put<Req, Res>(path: string, body: Req): Promise<Res> {
   return await http<Res>(
     new Request(path, {
       headers: {
@@ -38,7 +38,7 @@ export async function put<Req, Res>(path: string, body: Req): Promise<Res> {
   )
 }
 
-export async function post<Req, Res>(path: string, body: Req): Promise<Res> {
+export async function Post<Req, Res>(path: string, body: Req): Promise<Res> {
   return await http<Res>(
     new Request(path, {
       headers: {
@@ -51,7 +51,7 @@ export async function post<Req, Res>(path: string, body: Req): Promise<Res> {
   )
 }
 
-export async function del(path: string): Promise<undefined | null> {
+export async function Del(path: string): Promise<undefined | null> {
   return await http<undefined | null>(
     new Request(path, {
       headers: {

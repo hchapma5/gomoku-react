@@ -21,13 +21,14 @@ export default function GameHistory() {
 
   return (
     <div className={style.container}>
-      {games.length < 1 ? (
+      {/* {games.length < 1 ? (
         <p>{placeholderMessage}</p>
       ) : (
         games.map((game, index) => (
           <GameItem id={index} date={game.date} outcome={game.result} />
         ))
-      )}
+      )} */}
+      Game History
     </div>
   )
 }

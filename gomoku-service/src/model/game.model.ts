@@ -1,10 +1,30 @@
 import mongoose, { Document } from 'mongoose'
 import { UserDocument } from './user.model'
 
+export enum Stone {
+  BLACK = 'BLACK',
+  WHITE = 'WHITE',
+  EMPTY = 'EMPTY',
+}
+
+export enum State {
+  IN_PROGRESS = 'IN_PROGRESS',
+  BLACK_WIN = 'BLACK_WIN',
+  WHITE_WIN = 'WHITE_WIN',
+  DRAW = 'DRAW',
+}
+
+export interface MoveList {
+  row: number
+  col: number
+  player: string
+}
+
 export interface GameDocument extends Document {
   userId: UserDocument['_id']
-  board: string[][]
-  outcome?: string
+  moveList?: MoveList[]
+  boardSize: number
+  state?: State
   createdAt?: Date
 }
 
@@ -14,8 +34,12 @@ const gameSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  board: { type: Array },
-  outcome: { type: String, default: 'TBD' },
+  moveList: { type: Array },
+  boardSize: {
+    type: Number,
+    required: true,
+  },
+  state: { type: String, default: State.IN_PROGRESS },
   createdAt: { type: Date, default: Date.now },
 })
 

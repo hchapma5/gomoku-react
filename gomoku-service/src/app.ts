@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import authHandler from './handler/auth.handler'
 import gameHandler from './handler/game.handler'
 

@@ -1,27 +1,22 @@
 import { useNavigate } from 'react-router-dom'
 import { Button, Dropdown } from '../components'
-import { GAME_STATE, GOMOKU_BOARD_SIZE } from '../constants'
+import { GOMOKU_BOARD_SIZE, GameState } from '../constants'
 import { useGameStore, useUserStore } from '../stores'
 
 import style from './styles/Home.module.css'
 
 export default function Home() {
   const { user } = useUserStore()
-  const {
-    gameState,
-    boardSize,
-    setBoardSize,
-    initializeGame: initGame,
-  } = useGameStore()
+  const { createGame, gameState, boardSize, setBoardSize } = useGameStore()
   const navigate = useNavigate()
 
-  const activeGame = gameState === GAME_STATE.PLAYING ? true : false
+  const activeGame = gameState === GameState.IN_PROGRESS ? true : false
 
   const handleClick = () => {
     if (user) {
-      if (boardSize === undefined) return
-      if (gameState !== GAME_STATE.PLAYING) initGame()
-      navigate('/game')
+      if (!boardSize) return
+      if (!activeGame) createGame(boardSize)
+      navigate('game')
     } else {
       navigate('/login')
     }
@@ -41,7 +36,7 @@ export default function Home() {
         active={activeGame}
       />
       <Button type='submit' onClick={handleClick}>
-        {gameState === GAME_STATE.PLAYING ? 'Resume' : 'Start'}
+        {gameState === 'IN_PROGRESS' ? 'Resume' : 'Start'}
       </Button>
     </div>
   )

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Board, Button, GameLabel } from '../components'
-import { PLAYER, TILE_STATUS } from '../constants'
+import { Stone } from '../constants'
 import { useGameStore } from '../stores'
 import { MoveList } from '../types'
 
@@ -14,7 +14,7 @@ export default function GameLogPreview() {
 
   let message: string = ''
   let size: number = 0
-  let board: TILE_STATUS[][] = []
+  let board: Stone[][] = []
   let moveList: MoveList[] = []
 
   if (gameLog && gameId !== undefined) {
@@ -24,12 +24,10 @@ export default function GameLogPreview() {
     size = parsedGameLog[gameId].size
     moveList = parsedGameLog[gameId].moveList
 
-    board = [...Array(size)].map(() =>
-      [...Array(size)].map(() => TILE_STATUS.EMPTY)
-    )
+    board = [...Array(size)].map(() => [...Array(size)].map(() => Stone.EMPTY))
     moveList.forEach((move: MoveList) => {
       board[move.row][move.col] =
-        move.player === PLAYER.BLACK ? TILE_STATUS.BLACK : TILE_STATUS.WHITE
+        move.player === Stone.BLACK ? Stone.BLACK : Stone.WHITE
     })
   }
 
