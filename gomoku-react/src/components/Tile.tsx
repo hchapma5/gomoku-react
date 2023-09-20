@@ -29,6 +29,13 @@ export default memo(function Tile({ row, col, status, moves }: TileProps) {
 
   let label: number | undefined
 
+  if (moves) {
+    label =
+      moves.findIndex((move) => move.row === row && move.col === col) + 1 > 0
+        ? moves.findIndex((move) => move.row === row && move.col === col) + 1
+        : undefined
+  }
+
   const clickHandler = () => {
     if (gameState === GameState.IN_PROGRESS && status === Stone.EMPTY) {
       setAtIndex(row, col)

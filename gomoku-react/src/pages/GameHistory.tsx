@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { useUserStore } from '../stores'
 import { GameItem } from '../components'
 import { GameLog } from '../types'
+import { Get } from '../utils/http'
 
 import style from './styles/GameHistory.module.css'
 
@@ -10,25 +11,33 @@ export default function GameHistory() {
   const { user } = useUserStore()
   const [games, setGames] = useState<GameLog[]>([])
 
-  const placeholderMessage = 'No game logs found'
+  let displayMessage = 'Looking for games...'
+
+  const fetchUserGames = async () => {
+    const games = await Get<GameLog[]>('/api/game/game-history')
+    setGames(games)
+  }
 
   useEffect(() => {
-    const storedGames = localStorage.getItem('gomoku-games')
-    if (storedGames) setGames(JSON.parse(storedGames))
+    fetchUserGames()
   }, [])
 
   if (!user) return <Navigate to='/login' />
 
   return (
     <div className={style.container}>
-      {/* {games.length < 1 ? (
-        <p>{placeholderMessage}</p>
+      {games.length < 1 ? (
+        <p>{displayMessage}</p>
       ) : (
         games.map((game, index) => (
-          <GameItem id={index} date={game.date} outcome={game.result} />
+          <GameItem
+            index={index + 1}
+            id={game.id}
+            date={game.date}
+            outcome={game.outcome}
+          />
         ))
-      )} */}
-      Game History
+      )}
     </div>
   )
 }

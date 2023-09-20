@@ -5,10 +5,10 @@ export type MoveList = {
 }
 
 export type GameLog = {
-  id?: number
+  id: string
   size?: number
   date: string
-  result: string
+  outcome: string
   moveList: MoveList[]
 }
 
@@ -20,4 +20,10 @@ export type User = {
 export type Credential = {
   username: string
   password: string
+}
+
+export type GameData = {
+  size: number
+  moves: MoveList[]
+  outcome: string
 }

@@ -7,8 +7,15 @@ import style from './styles/Game.module.css'
 
 export default function Game() {
   const { user } = useUserStore()
-  const { player, gameState, stones, boardSize, resetGame, endGame } =
-    useGameStore()
+  const {
+    player,
+    gameState,
+    stones,
+    boardSize,
+    resetGame,
+    endGame,
+    deleteGame,
+  } = useGameStore()
 
   const navigate = useNavigate()
 
@@ -30,7 +37,12 @@ export default function Game() {
 
   const handleLeave = () => {
     endGame()
-    navigate('/')
+    if (gameState === GameState.IN_PROGRESS) {
+      deleteGame()
+      navigate('/')
+    } else {
+      navigate('/game-history')
+    }
   }
 
   const handleReset = () => {

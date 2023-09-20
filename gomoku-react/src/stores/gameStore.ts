@@ -1,21 +1,10 @@
 import { create } from 'zustand'
-import { Post, Get, Put } from '../utils/http'
+import { Post, Del, Put } from '../utils/http'
 import { MoveList } from '../types'
 import { GameState, Stone } from '../constants'
 
 interface CreateResponse {
   gameId: string
-}
-
-interface GameResponse {
-  id: string
-  userId: string
-  board: Stone[][]
-  moveList: MoveList[]
-  currentPlayer: string
-  boardSize: number
-  state: string
-  createdAt: string
 }
 
 interface MoveResponse {
@@ -32,12 +21,12 @@ type State = {
   moveList: MoveList[]
   setAtIndex: (row: number, col: number) => void
   createGame: (size: number) => Promise<true | string>
-  loadGame: () => Promise<true | string>
   processTurn: () => Promise<true | string>
   resetGame: () => void
   endGame: () => void
   setGameId: (gameId: string) => void
   setBoardSize: (size: number) => void
+  deleteGame: () => Promise<void>
 }
 
 const useGameStore = create<State>()((set, get) => ({
@@ -67,21 +56,6 @@ const useGameStore = create<State>()((set, get) => ({
       return 'Unable to create game at this moment, please try again'
     }
   },
-
-  loadGame: async () => {
-    try {
-      const id = get().gameId
-      const game = (await Get(`/api/game/${id}`)) as GameResponse
-      set({ stones: game.board })
-      return true
-    } catch (error) {
-      if (error instanceof Error) {
-        return error.message
-      }
-      return 'Unable to load game at this moment, please try again'
-    }
-  },
-
   processTurn: async () => {
     try {
       const id = get().gameId
@@ -124,6 +98,10 @@ const useGameStore = create<State>()((set, get) => ({
 
   endGame: () =>
     set(() => ({ gameState: GameState.IDLE, boardSize: undefined })),
+
+  deleteGame: async () => {
+    await Del(`/api/game/${get().gameId}`)
+  },
 
   setAtIndex: (row, col) => {
     set((state) => {

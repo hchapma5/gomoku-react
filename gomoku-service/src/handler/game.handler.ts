@@ -6,13 +6,16 @@ import {
   updateGame,
   getGameById,
   getAllGamesByUserId,
+  deleteGame,
 } from '../service/game.service'
 import {
   createGameSchema,
+  deleteGameSchema,
   getGameByIdSchema,
   updateGameSchema,
 } from '../schema/game.schema'
 import { checkWin, checkDraw } from '../util/gameLogic'
+import { formatDate } from '../util/dateFormat'
 import { State, Stone } from '../model/game.model'
 
 const gameHandler = express.Router()
@@ -20,22 +23,18 @@ gameHandler.use(deserializeUser)
 
 gameHandler.get('/game-history', async (req: Request, res: Response) => {
   const userId = req.userId
-  try {
-    const games = await getAllGamesByUserId(userId)
+  const games = await getAllGamesByUserId(userId)
 
-    if (games) {
-      return res.status(200).send(
-        games.map((game) => ({
-          id: game._id,
-          outcome: game.state,
-          date: game.createdAt,
-        }))
-      )
-    } else {
-      return res.status(404).send('No games found')
-    }
-  } catch (e) {
-    return res.status(500).send(e)
+  if (games) {
+    return res.status(200).send(
+      games.map((game) => ({
+        id: game._id,
+        outcome: game.state,
+        date: formatDate(game.createdAt),
+      }))
+    )
+  } else {
+    return res.status(404).send({ message: 'No games found' })
   }
 })
 
@@ -43,13 +42,17 @@ gameHandler.get(
   '/:id',
   validateSchema(getGameByIdSchema),
   async (req: Request, res: Response) => {
-    try {
-      const gameId = req.params.id
-      const game = await getGameById(gameId)
-      if (!game) return res.sendStatus(404)
-      return res.status(200).send(game)
-    } catch (e) {
-      return res.status(500).send(e)
+    const gameId = req.params.id
+    const game = await getGameById(gameId)
+
+    if (game) {
+      return res.status(200).send({
+        size: game.boardSize,
+        moves: game.moveList,
+        outcome: game.state,
+      })
+    } else {
+      return res.status(404).send({ message: 'Game not found' })
     }
   }
 )
@@ -70,6 +73,17 @@ gameHandler.post(
   }
 )
 
+gameHandler.delete(
+  '/:id',
+  validateSchema(deleteGameSchema),
+  async (req: Request, res: Response) => {
+    const gameId = req.params.id
+    const userId = req.userId
+    await deleteGame(gameId, userId)
+    return res.sendStatus(200)
+  }
+)
+
 gameHandler.put(
   '/:id',
   validateSchema(updateGameSchema),
@@ -85,7 +99,7 @@ gameHandler.put(
     } else if (checkDraw(board)) {
       response = State.DRAW
     }
-
+    // if game is over, update game state
     if (response !== State.IN_PROGRESS) {
       const updatedGame = await updateGame(gameId, userId, {
         state: response,

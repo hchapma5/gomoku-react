@@ -25,7 +25,7 @@ export interface GameDocument extends Document {
   moveList?: MoveList[]
   boardSize: number
   state?: State
-  createdAt?: Date
+  createdAt: Date
 }
 
 const gameSchema = new mongoose.Schema({

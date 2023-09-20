@@ -22,6 +22,12 @@ const updateGameParams = {
   }),
 }
 
+const updateDeleteParams = {
+  params: object({
+    id: string({ required_error: 'Game id is required' }),
+  }),
+}
+
 const getParams = {
   params: object({
     id: string({ required_error: 'Game id is required' }),
@@ -40,6 +46,11 @@ export const updateGameSchema = object({
   ...updateGameParams,
 })
 
+export const deleteGameSchema = object({
+  ...updateDeleteParams,
+})
+
 export type GetGameInput = TypeOf<typeof getGameByIdSchema>
 export type CreateGameInput = TypeOf<typeof createGameSchema>
 export type UpdateGameInput = TypeOf<typeof updateGameSchema>
+export type DeleteGameInput = TypeOf<typeof deleteGameSchema>
