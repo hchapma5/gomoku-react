@@ -103,7 +103,7 @@ const useGameStore = create<State>()((set, get) => ({
     await Del(`/api/game/${get().gameId}`)
   },
 
-  setAtIndex: (row, col) => {
+  setAtIndex: (row: number, col: number) => {
     set((state) => {
       const newStones = [...state.stones]
       newStones[row][col] = state.player as Stone

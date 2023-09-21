@@ -15,8 +15,8 @@ import {
   updateGameSchema,
 } from '../schema/game.schema'
 import { checkWin, checkDraw } from '../util/gameLogic'
-import { formatDate } from '../util/dateFormat'
-import { State, Stone } from '../model/game.model'
+import { formatDate, formatOutcome } from '../util/gameDataFormat'
+import { GameState, Stone } from '../constants'
 
 const gameHandler = express.Router()
 gameHandler.use(deserializeUser)
@@ -29,7 +29,7 @@ gameHandler.get('/game-history', async (req: Request, res: Response) => {
     return res.status(200).send(
       games.map((game) => ({
         id: game._id,
-        outcome: game.state,
+        outcome: formatOutcome(game.state as GameState),
         date: formatDate(game.createdAt),
       }))
     )
@@ -49,7 +49,7 @@ gameHandler.get(
       return res.status(200).send({
         size: game.boardSize,
         moves: game.moveList,
-        outcome: game.state,
+        outcome: formatOutcome(game.state as GameState),
       })
     } else {
       return res.status(404).send({ message: 'Game not found' })
@@ -92,15 +92,16 @@ gameHandler.put(
     const userId = req.userId
     const { player, board, moveList } = req.body
 
-    let response = State.IN_PROGRESS
+    let response = GameState.IN_PROGRESS
 
     if (checkWin(player, board)) {
-      response = player === Stone.BLACK ? State.BLACK_WIN : State.WHITE_WIN
+      response =
+        player === Stone.BLACK ? GameState.BLACK_WIN : GameState.WHITE_WIN
     } else if (checkDraw(board)) {
-      response = State.DRAW
+      response = GameState.DRAW
     }
     // if game is over, update game state
-    if (response !== State.IN_PROGRESS) {
+    if (response !== GameState.IN_PROGRESS) {
       const updatedGame = await updateGame(gameId, userId, {
         state: response,
         moveList,

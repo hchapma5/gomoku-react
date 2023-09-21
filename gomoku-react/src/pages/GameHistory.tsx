@@ -10,8 +10,7 @@ import style from './styles/GameHistory.module.css'
 export default function GameHistory() {
   const { user } = useUserStore()
   const [games, setGames] = useState<GameLog[]>([])
-
-  let displayMessage = 'Looking for games...'
+  const [isFetched, setIsFetched] = useState(false)
 
   const fetchUserGames = async () => {
     const games = await Get<GameLog[]>('/api/game/game-history')
@@ -19,24 +18,30 @@ export default function GameHistory() {
   }
 
   useEffect(() => {
-    fetchUserGames()
+    fetchUserGames().then(() => {
+      setIsFetched(true)
+    })
   }, [])
 
   if (!user) return <Navigate to='/login' />
 
   return (
     <div className={style.container}>
-      {games.length < 1 ? (
-        <p>{displayMessage}</p>
+      {isFetched ? (
+        games.length < 1 ? (
+          <p>No games found!</p>
+        ) : (
+          games.map((game, index) => (
+            <GameItem
+              index={index + 1}
+              id={game.id}
+              date={game.date}
+              outcome={game.outcome}
+            />
+          ))
+        )
       ) : (
-        games.map((game, index) => (
-          <GameItem
-            index={index + 1}
-            id={game.id}
-            date={game.date}
-            outcome={game.outcome}
-          />
-        ))
+        <p>Looking for games</p>
       )}
     </div>
   )

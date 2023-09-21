@@ -1,4 +1,4 @@
-import { Stone } from '../model/game.model'
+import { Stone } from '../constants'
 
 function checkHorizontalWin(player: Stone, stones: Stone[][]): boolean {
   for (let i = 0; i < stones.length; i++) {
