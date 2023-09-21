@@ -1,23 +1,21 @@
+import { useEffect } from 'react'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { useGameStore, useUserStore } from '../stores'
 import { Board, Button, GameLabel } from '../components'
-import { GameState } from '../constants'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { GameState, Stone } from '../constants'
+import { MoveList } from '../types'
 
 import style from './styles/Game.module.css'
 
 export default function Game() {
-  const { user } = useUserStore()
-  const {
-    player,
-    gameState,
-    stones,
-    boardSize,
-    resetGame,
-    endGame,
-    deleteGame,
-  } = useGameStore()
-
   const navigate = useNavigate()
+  const { user } = useUserStore()
+  const [searchParams] = useSearchParams()
+  const [player, setPlayer] = useState<Stone>(Stone.BLACK)
+  const [stones, setStones] = useState<Stone[][]>([])
+  const [gameState, setGameState] = useState<GameState>(GameState.IN_PROGRESS)
+  const [moves, setMoves] = useState<MoveList[]>([])
+  const boardSize = parseInt(searchParams.get('size') || '0')
 
   const getMessage = (state: GameState) => {
     const message = `Current Player: ${player}`
@@ -45,8 +43,15 @@ export default function Game() {
     }
   }
 
-  const handleReset = () => {
-    resetGame()
+  const resetGame = () => {
+    if (
+      !isGameOver(gameStatus) &&
+      !window.confirm('Are you sure you want to reset the game?')
+    )
+      return
+    setMoves([])
+    setGameState(GameState.IN_PROGRESS)
+    setPlayer(Stone.BLACK)
   }
 
   if (!user) return <Navigate to='/login' />

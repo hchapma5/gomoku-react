@@ -13,20 +13,20 @@ interface MoveResponse {
 }
 
 type State = {
-  boardSize: number | undefined
-  player?: Stone
-  stones: Stone[][]
-  gameState: GameState
-  gameId?: string
-  moveList: MoveList[]
-  setAtIndex: (row: number, col: number) => void
-  createGame: (size: number) => Promise<true | string>
-  processTurn: () => Promise<true | string>
-  resetGame: () => void
-  endGame: () => void
-  setGameId: (gameId: string) => void
-  setBoardSize: (size: number) => void
-  deleteGame: () => Promise<void>
+  boardSize: number | undefined // Get size from params
+  player?: Stone // useState
+  stones: Stone[][] // useState
+  gameState: GameState // useState
+  gameId?: string // Not needed?
+  moveList: MoveList[] // useState
+  setAtIndex: (row: number, col: number) => void // function to be written in Game
+  createGame: (size: number) => Promise<true | string> // function to be written in Home
+  processTurn: () => Promise<true | string> // combined with setAtindex function in Game
+  resetGame: () => void // handled in Game
+  endGame: () => void // handled in Game
+  setGameId: (gameId: string) => void // Not needed?
+  setBoardSize: (size: number) => void // Already set from game
+  deleteGame: () => Promise<void> // handled in Game (Leave game)
 }
 
 const useGameStore = create<State>()((set, get) => ({
