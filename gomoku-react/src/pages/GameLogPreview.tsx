@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 
 import style from './styles/GameLogPreview.module.css'
 
+
 export default function GameLogPreview() {
   const [stones, setStones] = useState<Stone[][]>([])
   const [gameData, setGameData] = useState<GameData>({} as GameData)
@@ -31,9 +32,19 @@ export default function GameLogPreview() {
     fetchGameData(id)
   }, [id])
 
+  const setMessage = () => {
+    switch (gameData.outcome) {
+      case 'BLACK_WIN':
+        return 'Black wins!'
+      case 'WHITE_WIN':
+        return 'White wins!'
+      case 'DRAW':
+        return 'Draw!'
+  }
+
   return (
     <div className={style.container}>
-      <GameLabel label={gameData.outcome ? gameData.outcome : 'Loading...'} />
+      <GameLabel label={gameData.outcome ? setMessage() : 'Loading...'} />
       <Board size={gameData.size} state={stones} moves={gameData.moves} />
       <Button type='submit' onClick={() => navigate(-1)}>
         Back

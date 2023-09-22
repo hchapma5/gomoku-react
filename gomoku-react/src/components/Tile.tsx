@@ -9,6 +9,7 @@ type TileProps = {
   row: number
   col: number
   status: Stone
+  handler?: () => void
   moves?: MoveList[]
 }
 
@@ -24,9 +25,13 @@ const getClassNames = (status: Stone) => {
   }
 }
 
-export default memo(function Tile({ row, col, status, moves }: TileProps) {
-  const { gameState, setAtIndex } = useGameStore()
-
+export default memo(function Tile({
+  row,
+  col,
+  status,
+  handler,
+  moves,
+}: TileProps) {
   let label: number | undefined
 
   if (moves) {
@@ -36,14 +41,8 @@ export default memo(function Tile({ row, col, status, moves }: TileProps) {
         : undefined
   }
 
-  const clickHandler = () => {
-    if (gameState === GameState.IN_PROGRESS && status === Stone.EMPTY) {
-      setAtIndex(row, col)
-    }
-  }
-
   return (
-    <div className={getClassNames(status)} onClick={clickHandler}>
+    <div className={getClassNames(status)} onClick={handler}>
       {moves && <div className={style.label}>{label}</div>}
     </div>
   )
