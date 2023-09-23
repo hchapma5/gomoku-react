@@ -4,7 +4,7 @@ import GameModel, { GameDocument } from '../model/game.model'
 export async function getAllGamesByUserId(userId: string) {
   return GameModel.find({
     userId: userId,
-    state: { $ne: 'IN_PROGRESS' },
+    // state: { $ne: 'IN_PROGRESS' },
   }).lean()
 }
 

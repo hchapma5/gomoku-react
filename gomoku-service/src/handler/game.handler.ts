@@ -14,9 +14,10 @@ import {
   getGameByIdSchema,
   updateGameSchema,
 } from '../schema/game.schema'
-import { checkWin, checkDraw } from '../util/gameLogic'
+import { checkWin, checkDraw, buildGameBoard } from '../util/gameLogic'
 import { formatDate, formatOutcome } from '../util/gameDataFormat'
 import { GameState, Stone } from '../constants'
+import Move from '../types'
 
 const gameHandler = express.Router()
 gameHandler.use(deserializeUser)
@@ -90,7 +91,24 @@ gameHandler.put(
   async (req: Request, res: Response) => {
     const gameId = req.params.id
     const userId = req.userId
-    const { player, board, moveList } = req.body
+    const { player, row, col } = req.body
+    const game = await getGameById(gameId)
+    if (!game) return res.status(404).send({ message: 'Game not found' })
+
+    // This is purely for POSTMAN testing purposes
+    if (
+      game.moveList.some(
+        (move) => move.player === player && move.row === row && move.col === col
+      )
+    )
+      return res
+        .status(400)
+        .send({ message: 'Bad Move... Try a different position' })
+
+    const board = buildGameBoard(game.boardSize, [
+      ...game.moveList,
+      { player, row, col },
+    ])
 
     let response = GameState.IN_PROGRESS
 
@@ -100,19 +118,15 @@ gameHandler.put(
     } else if (checkDraw(board)) {
       response = GameState.DRAW
     }
-    // if game is over, update game state
-    if (response !== GameState.IN_PROGRESS) {
-      const updatedGame = await updateGame(gameId, userId, {
-        state: response,
-        moveList,
-      })
-      if (updatedGame) {
-        return res.status(200).send({ state: response })
-      } else {
-        return res.status(500).send('Error updating game')
-      }
-    } else {
+
+    const updatedGame = await updateGame(gameId, userId, {
+      state: response,
+      moveList: [...game.moveList, { player, row, col }],
+    })
+    if (updatedGame) {
       return res.status(200).send({ state: response })
+    } else {
+      return res.status(500).send('Error updating game')
     }
   }
 )

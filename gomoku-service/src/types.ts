@@ -1,7 +1,7 @@
-type MoveList = {
+type Move = {
   row: number
   col: number
   player: string
 }
 
-export default MoveList
+export default Move

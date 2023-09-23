@@ -1,4 +1,13 @@
 import { Stone } from '../constants'
+import Move from '../types'
+
+export function buildGameBoard(size: number, movelist: Move[]): Stone[][] {
+  const stones = [...Array(size)].map(() => Array(size).fill(Stone.EMPTY))
+  movelist.forEach((move) => {
+    stones[move.row][move.col] = move.player
+  })
+  return stones
+}
 
 function checkHorizontalWin(player: Stone, stones: Stone[][]): boolean {
   for (let i = 0; i < stones.length; i++) {

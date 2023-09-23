@@ -1,11 +1,11 @@
 import mongoose, { Document } from 'mongoose'
 import { UserDocument } from './user.model'
-import MoveList from '../types'
+import Move from '../types'
 import { GameState } from '../constants'
 
 export interface GameDocument extends Document {
   userId: UserDocument['_id']
-  moveList?: MoveList[]
+  moveList: Move[]
   boardSize: number
   state?: GameState
   createdAt: Date
@@ -17,7 +17,7 @@ const gameSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  moveList: { type: Array },
+  moveList: { type: Array, default: [] },
   boardSize: {
     type: Number,
     required: true,
