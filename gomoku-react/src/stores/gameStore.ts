@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { Post, Del, Put } from '../utils/http'
 import { Move } from '../types'
-import { GameState, Stone } from '../constants'
+import { GameState, Stone, API_HOST } from '../constants'
 
 interface CreateResponse {
   gameId: string
@@ -38,7 +38,7 @@ const useGameStore = create<State>()((set, get) => ({
 
   createGame: async (size: number) => {
     try {
-      const response = (await Post(`/api/game`, {
+      const response = (await Post(`${API_HOST}/api/game`, {
         boardSize: size,
       })) as CreateResponse
       set({
@@ -60,7 +60,7 @@ const useGameStore = create<State>()((set, get) => ({
       set({ gameState: GameState.IDLE }) // Set Idle while processing
       const id = get().gameId
       const turn = get().moves.slice(-1)[0]
-      const response = (await Put(`/api/game/${id}`, {
+      const response = (await Put(`${API_HOST}/api/game/${id}`, {
         player: turn.player,
         row: turn.row,
         col: turn.col,
@@ -101,7 +101,7 @@ const useGameStore = create<State>()((set, get) => ({
     set(() => ({ gameState: GameState.IDLE, boardSize: undefined })),
 
   deleteGame: async () => {
-    await Del(`/api/game/${get().gameId}`)
+    await Del(`${API_HOST}/api/game/${get().gameId}`)
   },
 
   setAtIndex: async (row: number, col: number) => {

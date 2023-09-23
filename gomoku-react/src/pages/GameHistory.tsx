@@ -4,6 +4,7 @@ import { useUserStore } from '../stores'
 import { GameItem } from '../components'
 import { GameLog } from '../types'
 import { Get } from '../utils/http'
+import { API_HOST } from '../constants'
 
 import style from './styles/GameHistory.module.css'
 
@@ -13,7 +14,7 @@ export default function GameHistory() {
   const [isFetched, setIsFetched] = useState(false)
 
   const fetchUserGames = async () => {
-    const games = await Get<GameLog[]>('/api/game/game-history')
+    const games = await Get<GameLog[]>(`${API_HOST}/api/game/game-history`)
     setGames(games.filter((game) => game.outcome !== 'Game in progress'))
   }
 

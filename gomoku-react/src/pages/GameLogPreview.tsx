@@ -4,6 +4,7 @@ import { Stone } from '../constants'
 import { GameData } from '../types'
 import { Get } from '../utils/http'
 import { useEffect, useState } from 'react'
+import { API_HOST } from '../constants'
 
 import style from './styles/GameLogPreview.module.css'
 
@@ -14,7 +15,7 @@ export default function GameLogPreview() {
   const { id = '' } = useParams()
 
   const fetchGameData = async (id: string) => {
-    const data = await Get<GameData>(`/api/game/${id}`)
+    const data = await Get<GameData>(`${API_HOST}/api/game/${id}`)
     setGameData(data)
     const { moves, size } = data
     const board = [...Array(size)].map(() =>

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { User, Credential } from '../types'
 import { Post, setToken } from '../utils/http'
+import { API_HOST } from '../constants'
 
 type UserStore = {
   user?: User
@@ -15,7 +16,7 @@ const useUserStore = create<UserStore>((set) => ({
   setUser: (user: User) => set({ user }),
   login: async (username: string, password: string) => {
     try {
-      const user = await Post<Credential, User>(`/api/auth/login`, {
+      const user = await Post<Credential, User>(`${API_HOST}/api/auth/login`, {
         username,
         password,
       })
@@ -35,10 +36,13 @@ const useUserStore = create<UserStore>((set) => ({
   },
   register: async (username: string, password: string) => {
     try {
-      const user = await Post<Credential, User>(`/api/auth/register`, {
-        username,
-        password,
-      })
+      const user = await Post<Credential, User>(
+        `${API_HOST}/api/auth/register`,
+        {
+          username,
+          password,
+        }
+      )
       set({ user })
       setToken(user.token)
       return true
