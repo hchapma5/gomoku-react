@@ -17,6 +17,6 @@ export function formatOutcome(state: GameState) {
     case GameState.DRAW:
       return "It's a Draw!"
     case GameState.IN_PROGRESS:
-      return 'Game in Progress'
+      return 'Game in progress'
   }
 }

@@ -14,7 +14,7 @@ export default function GameHistory() {
 
   const fetchUserGames = async () => {
     const games = await Get<GameLog[]>('/api/game/game-history')
-    setGames(games)
+    setGames(games.filter((game) => game.outcome !== 'Game in progress'))
   }
 
   useEffect(() => {

@@ -41,7 +41,11 @@ export default function Game() {
       : false
 
   const handleLeave = () => {
-    if (!window.confirm('Are you sure you want to leave the game?')) return
+    if (
+      !isGameOver &&
+      !window.confirm('Are you sure you want to leave the game?')
+    )
+      return
     endGame()
     if (gameState === GameState.IN_PROGRESS) {
       deleteGame()
