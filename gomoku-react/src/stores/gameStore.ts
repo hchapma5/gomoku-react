@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { Post, Del, Put } from '../utils/http'
-import { MoveList } from '../types'
+import { Move } from '../types'
 import { GameState, Stone } from '../constants'
 
 interface CreateResponse {
@@ -9,7 +9,6 @@ interface CreateResponse {
 
 interface MoveResponse {
   state: GameState
-  moveList: MoveList[]
 }
 
 type State = {
@@ -18,7 +17,7 @@ type State = {
   stones: Stone[][]
   gameState: GameState
   gameId?: string
-  moveList: MoveList[]
+  moves: Move[]
   setAtIndex: (row: number, col: number) => void
   createGame: (size: number) => Promise<true | string>
   processTurn: () => Promise<true | string>
@@ -35,7 +34,7 @@ const useGameStore = create<State>()((set, get) => ({
   stones: [],
   gameState: GameState.IDLE,
   gameId: undefined,
-  moveList: [],
+  moves: [],
 
   createGame: async (size: number) => {
     try {
@@ -58,18 +57,21 @@ const useGameStore = create<State>()((set, get) => ({
   },
   processTurn: async () => {
     try {
+      set({ gameState: GameState.IDLE }) // Set Idle while processing
       const id = get().gameId
+      const turn = get().moves.slice(-1)[0]
       const response = (await Put(`/api/game/${id}`, {
-        player: get().player,
-        board: get().stones,
-        moveList: get().moveList,
+        player: turn.player,
+        row: turn.row,
+        col: turn.col,
       })) as MoveResponse
       if (response.state !== GameState.IN_PROGRESS) {
         // Case: WIN or DRAW
         set({ gameState: response.state })
       } else {
-        // Switch player
+        // Continue game with next player
         set({
+          gameState: GameState.IN_PROGRESS,
           player: get().player === Stone.BLACK ? Stone.WHITE : Stone.BLACK,
         })
       }
@@ -83,7 +85,6 @@ const useGameStore = create<State>()((set, get) => ({
   },
 
   setGameId: (gameId) => set(() => ({ gameId })),
-
   setBoardSize: (size: number) => set({ boardSize: size }),
 
   resetGame: () =>
@@ -91,7 +92,7 @@ const useGameStore = create<State>()((set, get) => ({
       stones: [...Array(get().boardSize)].map(() =>
         Array(get().boardSize).fill(Stone.EMPTY)
       ),
-      moveList: [],
+      moves: [],
       player: Stone.BLACK,
       gameState: GameState.IN_PROGRESS,
     }),
@@ -103,13 +104,13 @@ const useGameStore = create<State>()((set, get) => ({
     await Del(`/api/game/${get().gameId}`)
   },
 
-  setAtIndex: (row: number, col: number) => {
+  setAtIndex: async (row: number, col: number) => {
     set((state) => {
       const newStones = [...state.stones]
       newStones[row][col] = state.player as Stone
-      const newMoveList = [...state.moveList]
-      newMoveList.push({ row, col, player: state.player as Stone })
-      return { stones: newStones, moveList: newMoveList }
+      const newMoves = [...state.moves]
+      newMoves.push({ row, col, player: state.player as Stone })
+      return { stones: newStones, moves: newMoves }
     })
     get().processTurn()
   },

@@ -1,13 +1,13 @@
 import { Tile } from '../components'
 import { Stone } from '../constants'
-import { MoveList } from '../types'
+import { Move } from '../types'
 
 import style from './styles/Board.module.css'
 
 type BoardProps = {
   size?: number
   state: Stone[][]
-  moves?: MoveList[]
+  moves?: Move[]
 }
 
 export default function Board({ size, state, moves }: BoardProps) {

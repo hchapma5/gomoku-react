@@ -1,4 +1,4 @@
-export type MoveList = {
+export type Move = {
   row: number
   col: number
   player: string
@@ -9,7 +9,7 @@ export type GameLog = {
   size?: number
   date: string
   outcome: string
-  moveList: MoveList[]
+  moves: Move[]
 }
 
 export type User = {
@@ -24,6 +24,6 @@ export type Credential = {
 
 export type GameData = {
   size: number
-  moves: MoveList[]
+  moves: Move[]
   outcome: string
 }

@@ -28,14 +28,20 @@ export default function Game() {
         return 'White Wins!'
       case GameState.DRAW:
         return "It's a Draw"
+      case GameState.IDLE:
+        return 'Processing...'
       default:
         return message
     }
   }
 
-  const isGameOver = gameState !== GameState.IN_PROGRESS ? true : false
+  const isGameOver =
+    gameState !== GameState.IDLE && gameState !== GameState.IN_PROGRESS
+      ? true
+      : false
 
   const handleLeave = () => {
+    if (!window.confirm('Are you sure you want to leave the game?')) return
     endGame()
     if (gameState === GameState.IN_PROGRESS) {
       deleteGame()
@@ -46,6 +52,7 @@ export default function Game() {
   }
 
   const handleReset = () => {
+    if (!window.confirm('Are you sure you want to reset the game?')) return
     resetGame()
   }
 

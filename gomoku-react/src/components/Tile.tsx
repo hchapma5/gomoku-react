@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { GameState, Stone } from '../constants'
 import { useGameStore } from '../stores'
-import { MoveList } from '../types'
+import { Move } from '../types'
 
 import style from './styles/Tile.module.css'
 
@@ -9,7 +9,7 @@ type TileProps = {
   row: number
   col: number
   status: Stone
-  moves?: MoveList[]
+  moves?: Move[]
 }
 
 const getClassNames = (status: Stone) => {
