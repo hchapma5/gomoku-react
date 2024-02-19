@@ -1,15 +1,15 @@
-# Gomoku MERN App
+# ⚫ Gomoku MERN App ⚪
 
 Gomoku, or Five in a Row, is a classic strategy board game now available online through this MERN stack app. It provides a seamless digital experience for playing Gomoku with a clean, user-friendly interface.
 
-## Features
+## Features ⭐
 
 - **Gameplay**: Simple yet engaging Gomoku matches online.
 - **User Accounts**: Secure sign-up/login for personal game history and security.
 - **Game History**: Log and review past games for strategy improvement.
 - **Real-time Play**: Compete in live games for a dynamic experience.
 
-## Built With
+## Built With ⚙️
 - `React`
 - `TypeScript`
 - `Zustand`
@@ -17,7 +17,7 @@ Gomoku, or Five in a Row, is a classic strategy board game now available online 
 - `Express.js`
 - `Node.js`
 
-## Improvement
+## Improvement 💭
 
 - **Migrate to Vite**: Transitioning from CRA to Vite could significantly boost app performance and development speed.
 - **Security Enhancements**: Strengthen user registration and login with advanced security features like two-factor authentication.
