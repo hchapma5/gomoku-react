@@ -1,6 +1,6 @@
 import { Tile } from '../components'
 import { Stone } from '../constants'
-import { Move } from '../types'
+import { Move } from '../../../gomoku-react/src/types'
 
 import style from './styles/Board.module.css'
 

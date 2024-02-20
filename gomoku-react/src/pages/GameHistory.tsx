@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useUserStore } from '../stores'
 import { GameItem } from '../components'
-import { GameLog } from '../types'
+import { GameLog } from '../../../gomoku-react/src/types'
 import { Get } from '../utils/http'
 import { API_HOST } from '../constants'
 

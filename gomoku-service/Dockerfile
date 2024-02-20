@@ -2,10 +2,14 @@ FROM node
 
 WORKDIR /gomoku-service
 
-ADD ./package.json ./
-ADD ./package-lock.json ./
-ADD ./tsconfig.json ./
-ADD ./.env ./
+COPY package*.json ./
+COPY ./tsconfig.json ./
+COPY ./.env ./
+
 RUN npm install
+
+COPY . .
+
+EXPOSE 8080
 
 CMD npm run dev

@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { GameState, Stone } from '../constants'
 import { useGameStore } from '../stores'
-import { Move } from '../types'
+import { Move } from '../../../gomoku-react/src/types'
 
 import style from './styles/Tile.module.css'
 

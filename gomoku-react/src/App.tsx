@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { Header } from './components'
-import { Home, Login, SignUp, Game, GameHistory, GameLogPreview } from './pages'
+import { Header } from '../../gomoku-react/src/components'
+import { Home, Login, SignUp, Game, GameHistory, GameLogPreview } from '../../gomoku-react/src/pages'
 
 import style from './App.module.css'
 

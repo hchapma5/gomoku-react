@@ -2,9 +2,12 @@ FROM node
 
 WORKDIR /gomoku-react
 
-ADD ./package.json ./
-ADD ./package-lock.json ./
-ADD ./tsconfig.json ./
+COPY package*.json ./
+
 RUN npm install
 
-CMD npm start
+COPY . .
+
+EXPOSE 5173
+
+CMD npm run dev

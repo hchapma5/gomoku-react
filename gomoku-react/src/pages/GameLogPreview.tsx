@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { Board, Button, GameLabel } from '../components'
 import { Stone } from '../constants'
-import { GameData } from '../types'
+import { GameData } from '../../../gomoku-react/src/types'
 import { Get } from '../utils/http'
 import { useEffect, useState } from 'react'
 import { API_HOST } from '../constants'
