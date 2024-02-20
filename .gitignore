@@ -1,0 +1,13 @@
+# General
+node_modules/
+.env
+*.log
+*.pem
+
+# Frontend specific
+gomoku-react/build/
+gomoku-react/node_modules/
+
+# Backend specific
+gomoku-service/node_modules/
+gomoku-service/dist/
