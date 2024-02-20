@@ -23,6 +23,22 @@ Gomoku, or Five in a Row, is a classic strategy board game now available online 
 - ~~**Migrate to Vite**: Transitioning from CRA to Vite could significantly boost app performance and development speed.~~
 - **Security Enhancements**: Strengthen user registration and login with advanced security features like two-factor authentication.
 
+## Environment setup
+
+Before running the app locally or in Docker, you need to set up your environment variables:
+
+1. Copy the `.env.template` file in the `gomoku-service` directory and rename it to `.env`.
+```bash
+cp gomoku-service/.env.template gomoku-service/.env
+```
+2. Generate private and public keys for securing user authentication. You can use tools like OpenSSL for this:
+```bash
+openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
+3. Copy the generated keys to the .env file:
+4. Create a MongoDB database and copy the connection string to the .env file.
+
 ## To run locally:
 
 1. **Server**: `cd gomoku-service` > `npm install` > `npm run dev`
