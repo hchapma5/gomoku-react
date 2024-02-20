@@ -16,10 +16,11 @@ Gomoku, or Five in a Row, is a classic strategy board game now available online 
 - `MongoDB`
 - `Express.js`
 - `Node.js`
+- `Vite`
 
 ## Improvement 💭
 
-- **Migrate to Vite**: Transitioning from CRA to Vite could significantly boost app performance and development speed.
+- ~~**Migrate to Vite**: Transitioning from CRA to Vite could significantly boost app performance and development speed.~~
 - **Security Enhancements**: Strengthen user registration and login with advanced security features like two-factor authentication.
 
 ## To run locally:
