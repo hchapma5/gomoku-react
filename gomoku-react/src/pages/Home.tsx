@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { Button, Dropdown } from '../components'
 import { GOMOKU_BOARD_SIZE, GameState } from '../constants'
 import { useGameStore, useUserStore } from '../stores'
-
-import style from './styles/Home.module.css'
+import { ChangeEvent } from 'react'
 
 export default function Home() {
   const { user } = useUserStore()
@@ -22,22 +20,32 @@ export default function Home() {
     }
   }
 
-  const handleDropdown = (value: number) => {
-    if (user) setBoardSize(value)
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => 
+  {
+    if (!user) return
+    if (event.target.value === undefined) return
+    const value = parseInt(event.target.value)
+    setBoardSize(value)
   }
 
   return (
-    <div className={style.container}>
-      <Dropdown
-        minValue={GOMOKU_BOARD_SIZE.MIN}
-        maxValue={GOMOKU_BOARD_SIZE.MAX}
-        setValue={handleDropdown}
-        label={'Choose a board size' + (boardSize ? ` (${boardSize})` : '')}
-        active={activeGame}
-      />
-      <Button type='submit' onClick={handleClick}>
+    <div className="flex flex-col justify-center items-center gap-4 max-w-20% m-8">
+      <select  className="select select-bordered w-full h-full max-w-xs select-primary"
+      onChange={handleSelect}
+      disabled={activeGame}
+      >
+        <option selected>
+          {'Choose a board size' + (boardSize ? ` (${boardSize})` : '')}
+        </option>
+        {Array.from({ length: GOMOKU_BOARD_SIZE.MAX - GOMOKU_BOARD_SIZE.MIN + 1 }, (_, i) => i + GOMOKU_BOARD_SIZE.MIN).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      <button className="btn btn-active bg-primary" onClick={handleClick}>
         {gameState === 'IN_PROGRESS' ? 'Resume' : 'Start'}
-      </Button>
+      </button>
     </div>
   )
 }

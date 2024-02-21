@@ -2,13 +2,11 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { Header } from '../../gomoku-react/src/components'
 import { Home, Login, SignUp, Game, GameHistory, GameLogPreview } from '../../gomoku-react/src/pages'
 
-import style from './App.module.css'
-
 function App() {
   return (
     <>
       <Header />
-      <main className={style.main}>
+      <main className="flex-1 p-8">
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='login' element={<Login />} />

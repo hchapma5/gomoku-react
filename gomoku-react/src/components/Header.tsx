@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useUserStore } from '../stores'
+import ThemeToggle from './ThemeToggle'
 
 import style from './styles/Header.module.css'
 
@@ -46,6 +47,7 @@ export default function Header() {
     <header className={style.header}>
       <div className={style.container}>
         <Link to='/'>Gomoku</Link>
+        <ThemeToggle />
         <div className={style.actions}>{getActions()}</div>
       </div>
     </header>
