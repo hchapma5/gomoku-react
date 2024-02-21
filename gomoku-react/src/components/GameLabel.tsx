@@ -1,13 +1,9 @@
-import style from './styles/GameLabel.module.css'
-
 type GameLabelProps = {
   label: string
 }
 
 export default function GameLabel({ label }: GameLabelProps) {
   return (
-    <div className={style.container}>
-      <label>{label}</label>
-    </div>
+      <label className="text-2xl font-bold">{label}</label>
   )
 }

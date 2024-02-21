@@ -1,9 +1,7 @@
 import { useGameStore, useUserStore } from '../stores'
-import { Board, Button, GameLabel } from '../components'
+import { Board } from '../components'
 import { GameState } from '../constants'
 import { Navigate, useNavigate } from 'react-router-dom'
-
-import style from './styles/Game.module.css'
 
 export default function Game() {
   const { user } = useUserStore()
@@ -62,16 +60,16 @@ export default function Game() {
 
   if (!user) return <Navigate to='/login' />
   return (
-    <div className={style.container}>
-      <GameLabel label={getMessage(gameState)} />
+    <div className="flex flex-col items-center gap-4">
+      <label className="text-2xl font-bold" >{getMessage(gameState)}</label>
       <Board size={boardSize} state={stones} />
-      <div className={style.buttons}>
-        <Button type='submit' onClick={handleReset} disabled={isGameOver}>
+      <div className="flex w-96 justify-between">
+        <button className="btn btn-bordered btn-primary" type='submit' onClick={handleReset} disabled={isGameOver}>
           Reset
-        </Button>
-        <Button type='submit' onClick={handleLeave}>
+        </button>
+        <button className="btn btn-bordered btn-primary" type='submit' onClick={handleLeave}>
           Leave
-        </Button>
+        </button>
       </div>
     </div>
   )

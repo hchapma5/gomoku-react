@@ -43,7 +43,7 @@ export default function Home() {
           </option>
         ))}
       </select>
-      <button className="btn btn-active bg-primary" onClick={handleClick}>
+      <button className="btn bg-primary" onClick={handleClick}>
         {gameState === 'IN_PROGRESS' ? 'Resume' : 'Start'}
       </button>
     </div>

@@ -2,8 +2,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useUserStore } from '../stores'
 import ThemeToggle from './ThemeToggle'
 
-import style from './styles/Header.module.css'
-
 export default function Header() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -14,13 +12,13 @@ export default function Header() {
       return (
         <>
           <button
-            className={style.action}
+            className="btn btn-ghost noanimation btn-lg hover:bg-transparent"
             onClick={() => navigate('game-history')}
           >
             Game History
           </button>
           <button
-            className={style.action}
+            className="btn btn-ghost noanimation btn-lg hover:bg-transparent"
             onClick={() => {
               logout()
               navigate('/')
@@ -32,11 +30,11 @@ export default function Header() {
       )
     } else {
       return location.pathname !== '/login' ? (
-        <button className={style.action} onClick={() => navigate('login')}>
+        <button className="btn btn-ghost noanimation btn-lg hover:bg-transparent" onClick={() => navigate('login')}>
           Login
         </button>
       ) : (
-        <button className={style.action} onClick={() => navigate('sign-up')}>
+        <button className="btn btn-ghost noanimation btn-lg hover:bg-transparent" onClick={() => navigate('sign-up')}>
           Sign Up
         </button>
       )
@@ -44,11 +42,15 @@ export default function Header() {
   }
 
   return (
-    <header className={style.header}>
-      <div className={style.container}>
-        <Link to='/'>Gomoku</Link>
-        <ThemeToggle />
-        <div className={style.actions}>{getActions()}</div>
+    <header className="p-4">
+      <div className="flex w-90% max-w-1200px justify-between m-auto">
+        <Link className="no-underline text-4xl font-semibold text-primary hover:text-accent" to='/'>
+          Gomoku
+          </Link>
+        <div className="flex gap-x-2">
+          {getActions()}
+          <ThemeToggle />
+          </div>
       </div>
     </header>
   )
