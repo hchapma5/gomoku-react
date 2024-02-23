@@ -29,8 +29,8 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4 max-w-20% m-8">
-      <select  className="select select-bordered w-full h-full max-w-xs select-primary"
+    <div className='flex flex-col justify-center items-center gap-4 w-2/5 p-8 shadow-lg bg-secondary'>
+      <select  className="select select-bordered w-2/3 max-w-xs select-primary"
       onChange={handleSelect}
       disabled={activeGame}
       >
@@ -43,7 +43,7 @@ export default function Home() {
           </option>
         ))}
       </select>
-      <button className="btn bg-primary" onClick={handleClick}>
+      <button className="btn bg-primary w-2/3" onClick={handleClick}>
         {gameState === 'IN_PROGRESS' ? 'Resume' : 'Start'}
       </button>
     </div>

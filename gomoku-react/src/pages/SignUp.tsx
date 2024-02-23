@@ -1,6 +1,7 @@
 import { useUserStore } from '../stores'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { UserIcon, PasswordIcon, ErrorIcon } from '../icons'
 
 export default function SignUp() {
   const { register } = useUserStore()
@@ -26,38 +27,64 @@ export default function SignUp() {
 
   return (
     <form
-      className="flex flex-col gap-4 w-1/5 m-auto mt-20"
+      className='flex flex-col justify-center items-center gap-4 w-2/5 h-96 bg-secondary pb-2 shadow-lg'
       onSubmit={(e) => {
         e.preventDefault()
         handleSignUp()
       }}
     >
-      {errorMessage &&
-        <div role="alert" className="alert alert-error">
-          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>{errorMessage}</span>
-        </div>}
-        <label className="input input-bordered flex items-center gap-2">
-          <input type="text" className="grow" placeholder="Username" autoComplete='false'onChange={((e) => {
+      <div
+        role='alert'
+        className={
+          'alert alert-error rounded-sx w-2/3' + (errorMessage ? '' : ' invisible')
+        }
+      >
+        <ErrorIcon />
+        <span>{errorMessage}</span>
+      </div>
+      <label className='input flex items-center gap-2 w-2/3'>
+        <UserIcon />
+        <input
+          type='text'
+          className='grow'
+          placeholder='Username'
+          autoComplete='false'
+          onChange={(e) => {
             setUsername(e.target.value)
             setErrorMessage('')
-          })}/>
-        </label>
-      <label className="input input-bordered flex items-center gap-2">
-        <input type="password" placeholder="Password" className="grow" value={password} onChange={(e) => {
-          setErrorMessage('')
-          setPassword(e.target.value)
-        }}/>
+          }}
+        />
       </label>
-      <label className="input input-bordered flex items-center gap-2">
-        <input type="text" placeholder='Confirm password' value={confirmPassword} onChange={(e) => {
-          setErrorMessage('')
-          setConfirmPassword(e.target.value)
-        }} />
+      <label className='input flex items-center gap-2 w-2/3'>
+        <PasswordIcon />
+        <input
+          type='password'
+          placeholder='Password'
+          className='grow'
+          value={password}
+          onChange={(e) => {
+            setErrorMessage('')
+            setPassword(e.target.value)
+          }}
+        />
       </label>
-      <button className="btn btn-primary noanimation" type='submit' disabled={!username || !password || !confirmPassword}>
+      <label className='input flex items-center gap-2 w-2/3'>
+        <PasswordIcon />
+        <input
+          type='password'
+          placeholder='Confirm password'
+          value={confirmPassword}
+          onChange={(e) => {
+            setErrorMessage('')
+            setConfirmPassword(e.target.value)
+          }}
+        />
+      </label>
+      <button
+        className='btn btn-primary w-2/3'
+        type='submit'
+        disabled={!username || !password || !confirmPassword}
+      >
         Sign Up
       </button>
     </form>

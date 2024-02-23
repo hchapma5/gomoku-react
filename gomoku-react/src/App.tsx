@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="flex-1 p-8">
+      <main className="flex flex-col justify-center items-center">
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='login' element={<Login />} />
