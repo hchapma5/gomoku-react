@@ -14,6 +14,7 @@ export default function Board({ size, state, moves }: BoardProps) {
   const board = state.map((row, index) =>
     row.map((state, pos) => (
       <Tile
+        key={`${index}-${pos}`}
         row={index}
         col={pos}
         status={state}

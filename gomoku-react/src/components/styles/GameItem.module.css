@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 3fr 2fr;
   box-sizing: border-box;
-  width: 70%;
+  width: 90%;
   align-items: center;
   gap: 2rem;
 }
