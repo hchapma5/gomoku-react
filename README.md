@@ -9,6 +9,10 @@ Gomoku, or Five in a Row, is a classic strategy board game now available online 
 - **Game History**: Log and review past games for strategy improvement.
 - **Real-time Play**: Compete in live games for a dynamic experience.
 
+## Check it out! 😎
+
+[Play gomoku now!](https://hchapma5-gomoku-react.onrender.com/)
+
 ## Built With ⚙️
 - `React`
 - `TypeScript`
@@ -22,10 +26,6 @@ Gomoku, or Five in a Row, is a classic strategy board game now available online 
 
 - ~~**Migrate to Vite**: Transitioning from CRA to Vite could significantly boost app performance and development speed.~~
 - **Security Enhancements**: Strengthen user registration and login with advanced security features like two-factor authentication.
-
-## Check it out! 😎
-
-https://hchapma5-gomoku-react.onrender.com/
 
 ## To run locally:
 
