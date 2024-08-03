@@ -5,19 +5,19 @@ services:
     ports:
       - 27017:27017
   client-app:
-    build: ./gomoku-react
+    build: ./client
     environment:
       - VITE_PROXY_HOST=http://server-app:8080
     volumes:
-      - ./gomoku-react/src:/gomoku-react/src
-      - ./gomoku-react/public:/gomoku-react/public
+      - ./client/src:/client/src
+      - ./client/public:/client/public
     ports:
       - 5173:5173
   server-app:
-    build: ./gomoku-service
+    build: ./server
     environment:
       - MONGODB_URI=mongodb://mongo-db:27017
     volumes:
-      - ./gomoku-service/src:/gomoku-service/src
+      - ./server/src:/server/src
     ports:
       - 8080:8080

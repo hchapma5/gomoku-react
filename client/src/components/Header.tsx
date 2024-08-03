@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useUserStore } from '../stores'
 import ThemeToggle from './ThemeToggle'
 

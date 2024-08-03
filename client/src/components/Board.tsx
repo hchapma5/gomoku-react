@@ -1,6 +1,6 @@
-import { Tile } from '../components'
+import { Tile } from '.'
 import { Stone } from '../constants'
-import { Move } from '../../../gomoku-react/src/types'
+import { Move } from '../types'
 
 type BoardProps = {
   size?: number
@@ -23,8 +23,8 @@ export default function Board({ size, state, moves }: BoardProps) {
 
   return (
     <div
-      className="grid w-96 h-96 bg-yellow-800 border-2 border-gray-800"
-      style={{ gridTemplateColumns: `repeat(${size}, 1fr)`}}
+      className='grid w-96 h-96 bg-yellow-800 border-2 border-gray-800'
+      style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
     >
       {board}
     </div>
